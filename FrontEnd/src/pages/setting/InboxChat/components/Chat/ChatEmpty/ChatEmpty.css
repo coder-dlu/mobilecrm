@@ -1,0 +1,28 @@
+.wrapperChatEmpty{
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    background: #eee;
+}
+
+
+
+.chatEmpty {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.chatEmpty img{
+    height: 120px;
+    width: 120px;
+    display: block;
+}
+
+.chatEmpty p{
+   margin-top: 20px;
+}
