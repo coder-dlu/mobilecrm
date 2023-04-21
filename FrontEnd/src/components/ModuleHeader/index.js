@@ -247,7 +247,7 @@ export default function Header() {
     {
       admin: true,
       id: 'pages.setting.groups.title',
-      link: '../../mobile/setting/groups',
+      link: '../../setting/groups',
       button:
         intl
           .formatMessage({
@@ -268,7 +268,7 @@ export default function Header() {
     {
       admin: true,
       id: 'pages.setting.adsCampaign.title',
-      link: '../../mobile/setting/adsCampaign',
+      link: '../../setting/adsCampaign',
       button:
         intl
           .formatMessage({
@@ -289,7 +289,7 @@ export default function Header() {
     {
       admin: true,
       id: 'pages.setting.inboxchat.title',
-      link: '../../mobile/setting/Inboxchat',
+      link: '../../setting/Inboxchat',
       button:
         intl
           .formatMessage({

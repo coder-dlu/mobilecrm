@@ -8,8 +8,6 @@ import { useDispatch } from 'react-redux';
 import { seenMessageAction } from '@/slices/seenMessageSlice';
 
 function Chat(props) {
-  // const { selectedItem } = props;
-
   const [stateHide, setStateHide] = useState(true);
   const [emptyChat, setEmptyChat] = useState(true);
   const [typing, setTyping] = useState(false);
@@ -175,54 +173,32 @@ function Chat(props) {
     };
     () => {};
   }, []);
-  // const [selectedItemChat, setSelectedItemChat] = useState(true);
-  const { selectedItem } = props;
-  console.log(selectedItem)
+
+  const [selectedItem, setSelectedItem] = useState(true);
+  console.log(selectedItem);
   return (
-    <div className="chat" >
-      {selectedItem === false ? (
-        <ContentChat
-        attachment={attachment}
-        chat={chat}
-        agentChat={agentChat}
-        // setStateHide={setStateHide}
-        stateHide={stateHide}
-        typing={typing}
-        conversationId={converSationId}
-      />
-      ) : (
+    <div className="chat">
+      {selectedItem === true ? (
         <Sidebar
-        style={{width: "210vh", marginLeft: "-30px"}}
+          style={{ width: '210vh', marginLeft: '-30px' }}
           conversion={conversion}
           sortID={sortID}
           chat={chat}
           agentChat={agentChat}
           lastMessage={lastMessage}
+          selectedItem={selectedItem}
         />
-        
-      )}
-      {/* {selectedItem ? (
+      ) : (
         <ContentChat
           attachment={attachment}
           chat={chat}
           agentChat={agentChat}
           setStateHide={setStateHide}
           stateHide={stateHide}
-          emptyChat={emptyChat}
           typing={typing}
           conversationId={converSationId}
         />
-      ) : (
-        <Sidebar
-          conversion={conversion}
-          setEmptyChat={setEmptyChat}
-          sortID={sortID}
-          chat={chat}
-          agentChat={agentChat}
-          lastMessage={lastMessage}
-        />
-      )} */}
-
+      )}
       {/* <ProfileChat stateHide={stateHide} /> */}
       {/* <Sidebar conversion={conversion} setEmptyChat={setEmptyChat} sortID={sortID} chat={chat} agentChat={agentChat} lastMessage={lastMessage} />
       <ContentChat attachment={attachment} chat={chat} agentChat={agentChat} setStateHide={setStateHide} stateHide={stateHide} emptyChat={emptyChat} typing={typing} conversationId={converSationId} />

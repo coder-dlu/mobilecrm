@@ -71,7 +71,7 @@ function Login() {
     if (!history) return;
     const { query } = history.location;
     const { redirect } = query;
-    history.push(redirect || '/mobile/setting/groups');
+    history.push(redirect || '/setting/groups');
   };
 
   const onLogin = (e) => {

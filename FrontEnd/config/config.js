@@ -53,7 +53,6 @@ export default defineConfig({
       component: './modules',
     },
     {
-      ///rate?BookingId=123&RoomId=321&Room=305&GuestName=Thanh
       path: '/rate',
       layout: false,
       component: './VoteStar',
@@ -70,7 +69,7 @@ export default defineConfig({
     },
     {
       exact: false,
-      path: '/mobile/setting',
+      path: '/setting',
       component: '@/layouts/setting/index',
       routes: [
         // {
@@ -117,19 +116,19 @@ export default defineConfig({
         // },
         {
           exact: true,
-          path: '/mobile/setting/groups',
+          path: '/setting/groups',
           name: 'groups',
           component: './setting/groups',
         },
         {
           exact: true,
-          path: '/mobile/setting/adsCampaign',
+          path: '/setting/adsCampaign',
           name: 'adsCampaign',
           component: './setting/adsCampaign',
         },
         {
           exact: true,
-          path: '/mobile/setting/InboxChat',
+          path: '/setting/InboxChat',
           name: 'InboxChat',
           component: './setting/InboxChat',
         },

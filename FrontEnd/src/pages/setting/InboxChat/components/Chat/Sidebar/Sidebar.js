@@ -11,7 +11,7 @@ import { memo, useEffect, useState } from 'react';
 import ItemUser from './ItemUser/ItemUser';
 import './Sidebar.css';
 
-function Sidebar ({ conversion, setEmptyChat, agentChat, chat, lastMessage, sortID }){
+function Sidebar({ conversion, setEmptyChat, agentChat, chat, lastMessage, sortID, selectedItem }) {
   // const [data, loading] = useCallApi("http://api.cm.onexus.net/api/Chat/GetConversations", "get")
   const [conversations, setConversation] = useLocalStorage('conversation');
   const [seenMessge, setSeenMessage] = useLocalStorage('seenConversations', []);
@@ -85,8 +85,7 @@ function Sidebar ({ conversion, setEmptyChat, agentChat, chat, lastMessage, sort
       return chat?.conversation_id.toString() === element.conversationId;
     });
   }, [sortID]);
- 
-
+  console.log(selectedItem);
   return (
     <>
       <div className="wrapperSidebar">
@@ -129,6 +128,7 @@ function Sidebar ({ conversion, setEmptyChat, agentChat, chat, lastMessage, sort
                     isActive={conversations === item.conversationId}
                     setEmptyChat={setEmptyChat}
                     localIDs={seenMessge}
+                    selectedItem={selectedItem}
                   />
                 );
               })}
@@ -137,6 +137,6 @@ function Sidebar ({ conversion, setEmptyChat, agentChat, chat, lastMessage, sort
       </div>
     </>
   );
-};
+}
 
 export default memo(Sidebar);
