@@ -14,7 +14,7 @@ import { faceBookIcon, telegramIcon, webWidgetIcon, zaloIcon } from '../../../as
 import FormatDate from '../../Common/FormatDate/FormatDate';
 import './ItemUser.css';
 
-function ItemUser({ itemData, setEmptyChat, isActive, readMessage, idMessageGuest, notSeen, lastMessage, localIDs } ) {
+function ItemUser({ itemData, setEmptyChat, isActive, readMessage, idMessageGuest, notSeen, lastMessage, localIDs,selectedItem,setSelectedItem },props ) {
 
   const dispatch = useDispatch()
   const id = useSelector(userState)
@@ -105,19 +105,10 @@ function ItemUser({ itemData, setEmptyChat, isActive, readMessage, idMessageGues
     }
   };
 
-  // sự kiện click hiển thị component khác
-  const [selectedItem, setSelectedItem] = useState(false);
-  const handleSelectedChat = () => {
+  const handleClick = () => {
     setSelectedItem(!selectedItem);
-    console.log(selectedItem);
   };
-  
 
-
-
-
-  
-       
   return (
     <div ref={refActive} className={`wrapperUser ${isActive && 'active'}`} onClick={handleSubmitMessageById}>
       <List
@@ -130,7 +121,7 @@ function ItemUser({ itemData, setEmptyChat, isActive, readMessage, idMessageGues
         }}
       >
         <ListItem alignItems="flex-start" className='itemConversation' 
-        onClick={() => handleSelectedChat()}
+        onClick={handleClick}
         >
 
           <ListItemAvatar className='wrapAvatar' >

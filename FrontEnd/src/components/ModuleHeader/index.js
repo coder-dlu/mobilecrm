@@ -387,8 +387,7 @@ export default function Header() {
 
   return (
     <div>
-      <Row className="Header-component" style={{ width: '100%'}}>
-        {/* <Clock></Clock> */}
+      <Row className="Header-component" style={{ width: '100%',overflowX: 'none'}}>
         <Col span={24} className="module-head-form ">
           <Col className="module-head" xxl={1} xl={2} lg={5} sm={5} xs={8}>
             <Logo className="module-logo "></Logo>

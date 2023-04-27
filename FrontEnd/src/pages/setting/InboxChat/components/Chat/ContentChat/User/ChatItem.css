@@ -70,6 +70,8 @@
   padding: 20px;
   overflow-x: hidden;
   overflow-y: overlay;
+  width: 425px;
+  margin-left: -40px;
 }
 .msg {
   display: flex;
@@ -81,6 +83,7 @@
 }
 
 .avatarImg {
+  margin-top: 18px;
 }
 
 .avatarSend {
@@ -105,14 +108,17 @@
   border-radius: 50%;
 }
 .msg-bubble {
-  max-width: 450px;
+  max-width: 150px;
   padding: 15px;
   background: var(--left-msg-bg);
   border-radius: 15px;
+  font-size: 14px;
 }
 .msg-info {
   display: flex;
+  height: 10px;
   align-items: center;
+  font-size: 12px;
   justify-content: space-between;
 }
 .msg-info-name {
@@ -135,6 +141,7 @@
   color: #fff;
   background: var(--right-msg-bg);
   border-bottom-right-radius: 0;
+  font-size: 14px;
 }
 .right-msg .msg-img {
   margin: 0 0 0 10px;
@@ -150,15 +157,16 @@
   background-color: #f1f5f8;
   border: 1px solid #e4ebf1;
   border-radius: 10px;
+  font-size: 12px;
 }
 
 .msg-system-time {
   margin-left: 12px;
-  font-size: 14px;
+  font-size: 12px;
 }
 
 .msger-send-btn {
-  margin-right: 20px;
+  margin-right: 40px;
   margin-left: 10px;
   padding-right: 20px;
   color: #fff;
@@ -233,6 +241,7 @@
 
 .msg-text {
   word-wrap: break-word;
+  font-size: 14px;
 }
 
 .msg-more {
@@ -278,10 +287,12 @@
   padding: 6px 12px;
   white-space: nowrap;
   text-align: center;
+  font-size: 14px;
 }
 
 .left-msg .msg-bubble .msg-text .file .fileInfo .nameFile {
   color: #585858;
+  font-size: 14px;
 }
 
 .left-msg .msg-bubble .msg-text .file .fileInfo a {
@@ -316,6 +327,8 @@
 
 .nameFile {
   color: #fff;
+  font-size: 14px;
+  width: 100px !important;
 }
 
 .fileInfo a {
@@ -408,4 +421,55 @@
   height: 15px;
   margin-top: 10px;
   margin-left: 10px;
+}
+
+.subMenuPin {
+  position: absolute;
+  top: 50%;
+  display: none;
+  max-width: 200px;
+  height: 160px;
+  max-height: 160px;
+  padding: 10px 0;
+  overflow-x: hidden;
+  overflow-y: overlay;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  transform: translateY(-50%);
+  will-change: scroll-position;
+  overscroll-behavior: contain;
+}
+
+.subMenuPin::-webkit-scrollbar {
+  display: none;
+}
+
+.subMenuPin:hover::-webkit-scrollbar {
+  display: block;
+  width: 4px;
+}
+
+.subMenuPin::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 10px;
+}
+
+.subMenuPin li {
+  width: fit-content;
+  width: 100%;
+  padding: 6px 20px;
+  overflow: hidden;
+  color: #000;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.subMenuPin li:hover {
+  color: #fff;
+  background-color: #2569c0;
+}
+
+.menuPin:hover .subMenuPin {
+  display: block;
 }

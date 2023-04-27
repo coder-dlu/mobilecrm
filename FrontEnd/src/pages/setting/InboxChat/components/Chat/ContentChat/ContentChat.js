@@ -1,28 +1,51 @@
 import { useCallApi } from '@/hooks/useCallApi';
 import { useLocalStorage } from '@/hooks/useLocalStorage';
 import { userState } from '@/slices/messageSlice';
-import { GetChatToken, GetMessage, postMess, SendMessageAttachFiles, SendMessager } from '@/untils/request';
+import {
+  GetChatToken,
+  GetMessage,
+  postMess,
+  SendMessageAttachFiles,
+  SendMessager,
+} from '@/untils/request';
 import EmojiPicker from 'emoji-picker-react';
 import moment from 'moment';
 import { useCallback, useEffect, useRef, useState, memo } from 'react';
 import { HiOutlineMenuAlt2 } from 'react-icons/hi';
 import { IoMdTrash } from 'react-icons/io';
 import { useSelector } from 'react-redux';
-import { attachment, attachmenticon, faceBookIcon, telegramIcon, webWidgetIcon, zaloIcon } from '../../asset';
-import ChatEmpty from '../ChatEmpty/ChatEmpty';
+import {
+  attachment,
+  attachmenticon,
+  faceBookIcon,
+  telegramIcon,
+  webWidgetIcon,
+  zaloIcon,
+} from '../../asset';
 import LoadingChat from './../LoadingChat/LoadingChat';
 import './ContentChat.css';
 import ChatItem from './User/ChatItem';
 import { RiAttachment2 } from 'react-icons/ri';
 import { IoMdHappy } from 'react-icons/io';
 import { MdSend } from 'react-icons/md';
-import { UploadOutlined } from '@ant-design/icons';
+import { LeftOutlined, UploadOutlined } from '@ant-design/icons';
 import { Button, Upload } from 'antd';
 import axios from 'axios';
 import LoadingChatItem from './User/MessageContent/LoadingChatItem';
 import { seenMessage } from '@/slices/seenMessageSlice';
+import ProfileChat from '../ProfileChat';
 
-function ContentChat({ stateHide, setStateHide, emptyChat, typing, dataServer, chat, agentChat, conversationId }) {
+function ContentChat({
+  stateHide,
+  setStateHide,
+  typing,
+  dataServer,
+  chat,
+  agentChat,
+  conversationId,
+  selectedItem,
+  setSelectedItem,
+}) {
   const conversation = useSelector(userState);
   const [message, setMessage] = useState('');
   const [showEmoji, setShowEmoji] = useState(false);
@@ -30,7 +53,7 @@ function ContentChat({ stateHide, setStateHide, emptyChat, typing, dataServer, c
   const [dataMess, setDataMess] = useState([]);
   const [loading, setLoading] = useState(true);
   const [account, setAccount] = useState();
-  const [localState] = useLocalStorage('conversations')
+  const [localState] = useLocalStorage('conversations');
   const emojiRef = useRef();
   const refForm = useRef();
   const refinput = useRef();
@@ -48,25 +71,28 @@ function ContentChat({ stateHide, setStateHide, emptyChat, typing, dataServer, c
   };
   const [selectedFiles, setSelectedFiles] = useState([]);
 
-  const [multiple, setMultipeFile] = useState()
-  const [dataInfoConversation] = useCallApi('http://api.cm.onexus.net/api/Chat/GetConversations', 'get')
+  const [multiple, setMultipeFile] = useState();
+  const [dataInfoConversation] = useCallApi(
+    'http://api.cm.onexus.net/api/Chat/GetConversations',
+    'get',
+  );
   useEffect(() => {
-    let mounte = true
+    let mounte = true;
     if (mounte) {
-      const newAcount = dataInfoConversation.filter(account => {
+      const newAcount = dataInfoConversation.filter((account) => {
         if (account.conversationId === localState) {
-          return account
+          return account;
         }
-      })
-      setAccount(newAcount)
+      });
+      setAccount(newAcount);
     }
-    return () => mounte = false
-  }, [dataInfoConversation])
+    return () => (mounte = false);
+  }, [dataInfoConversation]);
 
   //!user UI data
   useEffect(() => {
-    if (agentChat?.conversation_id != conversation.id) return
-    let mounte = true
+    if (agentChat?.conversation_id != conversation.id) return;
+    let mounte = true;
     if (mounte) {
       setDataMess((prev) => {
         return [
@@ -80,41 +106,20 @@ function ContentChat({ stateHide, setStateHide, emptyChat, typing, dataServer, c
             messageType: agentChat.messageType,
             senderThumbnail: agentChat.senderThumbnail,
             attachments: agentChat.attachments,
-            messageContent: agentChat.messageContent
+            messageContent: agentChat.messageContent,
           },
-        ]
-      })
+        ];
+      });
     }
-    return () => mounte = false
-  }, [agentChat])
-
-  // useEffect(() => {
-  //   const newDataMess = {
-  //     isReciper: false,
-  //     senderName: agentChat.senderName,
-  //     messageId: agentChat.messageID,
-  //     conversationId: agentChat.conversation_id,
-  //     text: message,
-  //     messageType: agentChat.messageType,
-  //     senderThumbnail: agentChat.senderThumbnail,
-  //     attachments: agentChat.attachments,
-  //     messageContent: agentChat.messageContent
-  //   };
-
-  //   setDataMess((prevDataMess) => [...prevDataMess, newDataMess]);
-
-  //   return () => {
-  //     // remove the listener that was set up in the hook
-  //   };
-  // }, [agentChat]);
-
+    return () => (mounte = false);
+  }, [agentChat]);
 
   //! user client
   useEffect(() => {
-    if (chat?.conversation_id != conversation.id) return
-    let mounte = true
+    if (chat?.conversation_id != conversation.id) return;
+    let mounte = true;
     if (mounte) {
-      setDataMess(curMess => {
+      setDataMess((curMess) => {
         return [
           ...curMess,
           {
@@ -125,15 +130,14 @@ function ContentChat({ stateHide, setStateHide, emptyChat, typing, dataServer, c
             messageContent: chat?.content,
             messageType: chat?.messageType,
             senderThumbnail: chat?.senderThumbnail,
-            attachments: chat?.attachments
-          }
-        ]
-      })
+            attachments: chat?.attachments,
+          },
+        ];
+      });
     }
     // }
-    return () => mounte = false
-
-  }, [chat, conversation?.id, localState])
+    return () => (mounte = false);
+  }, [chat, conversation?.id, localState]);
 
   useEffect(() => {
     if (refinput.current !== undefined) {
@@ -142,25 +146,22 @@ function ContentChat({ stateHide, setStateHide, emptyChat, typing, dataServer, c
   }, [cursorPosition]);
 
   useEffect(() => {
-    intoViewRef?.current?.scrollIntoView({ behavior: 'smooth' })
-  }, [dataMess, conversation])
+    intoViewRef?.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [dataMess, conversation]);
 
-  const emojiContainerRef = useRef(null)
+  const emojiContainerRef = useRef(null);
   const handleShowEmoji = (e) => {
     const Emoji = document.querySelector('.Emoji');
-    if (!Emoji) return
+    if (!Emoji) return;
     if (emojiContainerRef.current.contains(e.target)) {
       return setShowEmoji(true);
-
-    } else if (!emojiContainerRef.current.contains(e.target))
-      return setShowEmoji(false);
-
+    } else if (!emojiContainerRef.current.contains(e.target)) return setShowEmoji(false);
   };
 
   useEffect(() => {
-    document.addEventListener("click", handleShowEmoji);
+    document.addEventListener('click', handleShowEmoji);
     return () => {
-      document.removeEventListener("click", handleShowEmoji);
+      document.removeEventListener('click', handleShowEmoji);
     };
   }, []);
 
@@ -216,19 +217,12 @@ function ContentChat({ stateHide, setStateHide, emptyChat, typing, dataServer, c
       if (refChat.current) refChat.current.scrollTop = refChat.current.scrollHeight;
     });
 
-    //thêm 
+    //thêm
     return () => {
-      setDataMess([])
-      setMessage('')
-    }
+      setDataMess([]);
+      setMessage('');
+    };
   }, [conversation?.id, localState]);
-  // const aRef = useRef(null)
-
-  // useEffect(() => {
-  //   var a = agentChat
-  //   aRef.current = a
-  // }, [agentChat])
-
   //! user Send
   const handleSend = async (e) => {
     const msgText = refinput.current.value;
@@ -236,23 +230,21 @@ function ContentChat({ stateHide, setStateHide, emptyChat, typing, dataServer, c
     if (selectedFiles.length > 0) {
       // const fileInput = document.querySelector('.input-file')
       const data = new FormData();
-      data.append("message", message);
+      data.append('message', message);
 
       for (let i = 0; i < selectedFiles.length; i++) {
         const file = selectedFiles[i];
-        data.append("attachements", file, file.name);
+        data.append('attachements', file, file.name);
       }
 
       const dataApi = {
         id: conversation?.id,
         content: message,
-        data: data
-      }
+        data: data,
+      };
       //send File
-      SendMessageAttachFiles(dataApi)
-      setSelectedFiles([])
-
-
+      SendMessageAttachFiles(dataApi);
+      setSelectedFiles([]);
     } else {
       const data = {
         id: conversation?.id,
@@ -260,17 +252,14 @@ function ContentChat({ stateHide, setStateHide, emptyChat, typing, dataServer, c
       };
       //send Message
       await SendMessager(data);
-
     }
     // if (message !== '') {
     //   setMessage(message => message.replace(/\n/g, ''));
     // }
     setMessage('');
-
   };
 
   const handleKeydown = (e) => {
-
     if (e.keyCode === 13 && e.shiftKey) {
       e.preventDefault();
       setMessage(message + '\n' + '');
@@ -279,20 +268,17 @@ function ContentChat({ stateHide, setStateHide, emptyChat, typing, dataServer, c
       handleSend();
     }
   };
-
   const handleHideProfile = () => {
     setStateHide(!stateHide);
   };
 
   const handleEmptyAvatar = () => {
-
     if (conversation?.image !== '') {
       return <img className="avatarImg" src={conversation?.image} />;
     } else {
       return <div className="avatar">{conversation?.name.slice(0, 2)}</div>;
     }
   };
-
 
   const handleFileChange = (e) => {
     const files = Array.from(e.target.files);
@@ -303,22 +289,26 @@ function ContentChat({ stateHide, setStateHide, emptyChat, typing, dataServer, c
     const newFiles = [...selectedFiles];
     newFiles.splice(i, 1); // hoặc: newFiles = newFiles.filter((f, index) => index !== i);
     setSelectedFiles(newFiles);
-  }
+  };
 
   const handleInput = (e) => {
     const element = e.target;
     element.style.height = '0px';
     element.style.height = element.scrollHeight + 'px';
-    setMessage(e.target.value)
+    setMessage(e.target.value);
+  };
+  const seenbtn = useSelector(seenMessage);
 
-  }
-  const seenbtn = useSelector(seenMessage)
-  console.log(seenbtn)
+  const handleClickBack = () => {
+    setSelectedItem(!selectedItem);
+  };
   return (
     <>
-      <div className={`msger ${stateHide ? 'hideMargin' : ''}`}>
-      <>
+      {stateHide === true ? (
+        <div className={`msger ${stateHide ? 'hideMargin' : ''}`} style={{ width: '425px' }}>
+          <>
             <div className="msger-header">
+              <LeftOutlined onClick={handleClickBack} />
               <div className="msger-header-container">
                 <div className="msger-header-avatar">
                   {handleEmptyAvatar()}
@@ -331,6 +321,7 @@ function ContentChat({ stateHide, setStateHide, emptyChat, typing, dataServer, c
                   </span>
                 </div>
               </div>
+              {/* BUTTON show profile */}
               <div
                 ref={reficon}
                 style={{ cursor: 'pointer' }}
@@ -346,7 +337,6 @@ function ContentChat({ stateHide, setStateHide, emptyChat, typing, dataServer, c
                 <LoadingChat />
               ) : (
                 dataMess.length > 0 &&
-
                 dataMess.map((item, i) => (
                   <>
                     <ChatItem
@@ -358,17 +348,15 @@ function ContentChat({ stateHide, setStateHide, emptyChat, typing, dataServer, c
                       imgUser={agentChat?.sender?.thumbnail}
                       imgGuest={chat?.imgGuest}
                     />
-
                   </>
                 ))
               )}
-              <div ref={intoViewRef} className='seenBtn'>
+              <div ref={intoViewRef} className="seenBtn">
                 {seenbtn.seen && 'Đã xem'}
               </div>
-
             </ul>
-            {
-              (typing && conversationId == conversation.id) && <div className='msg-typing'>
+            {typing && conversationId == conversation.id && (
+              <div className="msg-typing">
                 <span> {`${conversation?.name} đang soạn tin nhắn`}</span>
                 <div class="snippet" data-title="dot-flashing">
                   <div class="stage">
@@ -376,11 +364,10 @@ function ContentChat({ stateHide, setStateHide, emptyChat, typing, dataServer, c
                   </div>
                 </div>
               </div>
-            }
+            )}
 
             {/** footer */}
             <>
-
               <div className="msger-inputarea">
                 <textarea
                   type="text"
@@ -390,41 +377,44 @@ function ContentChat({ stateHide, setStateHide, emptyChat, typing, dataServer, c
                   onChange={handleInput}
                   className={`msger-input ${message === '' && 'setHeight'}`}
                   placeholder="Nhập tin nhắn..."
-                ></textarea >
+                ></textarea>
                 <button ref={refForm} onClick={handleSend} className="msger-send-btn">
                   Gửi
                 </button>
               </div>
             </>
-            <div className='previewContainer'>
-              {
-                selectedFiles.map((file, i) => {
-                  return (
-                    <div key={i} className='preview'>
-                      <img src={URL.createObjectURL(file)} className='previewfile' alt='File' />
-                      <span className='preview_name'>{file.name}</span>
-                      <span className='preview_del' onClick={e => handleDelete(i)}>{<IoMdTrash />}</span>
-                    </div>
-                  )
-                })
-              }
+            <div className="previewContainer">
+              {selectedFiles.map((file, i) => {
+                return (
+                  <div key={i} className="preview">
+                    <img src={URL.createObjectURL(file)} className="previewfile" alt="File" />
+                    <span className="preview_name">{file.name}</span>
+                    <span className="preview_del" onClick={(e) => handleDelete(i)}>
+                      {<IoMdTrash />}
+                    </span>
+                  </div>
+                );
+              })}
             </div>
 
-            <div className='action-select'>
+            <div className="action-select">
               <input
-                className='input-file'
+                className="input-file"
                 type="file"
-                id='file'
+                id="file"
                 multiple
                 hidden
                 onChange={handleFileChange}
               />
-              <label htmlFor="file" className='fileAttachment'>
+              <label htmlFor="file" className="fileAttachment">
                 {<RiAttachment2 />}
               </label>
 
-              <div ref={emojiContainerRef} className="emoij-btn fileAttachment" onClick={handleShowEmoji}>
-
+              <div
+                ref={emojiContainerRef}
+                className="emoij-btn fileAttachment"
+                onClick={handleShowEmoji}
+              >
                 {<IoMdHappy />}
                 <div ref={emojiRef} className="Emoji">
                   <div></div>
@@ -441,10 +431,13 @@ function ContentChat({ stateHide, setStateHide, emptyChat, typing, dataServer, c
                   )}
                 </div>
               </div>
-
             </div>
           </>
-      </div>
+        </div>
+      ) : (
+        <ProfileChat stateHide={stateHide} setStateHide={setStateHide} />
+        // <>ProfileChat </>
+      )}
     </>
   );
 }

@@ -13,6 +13,7 @@ import IsLinkContent from './MessageContent/MessageContent';
 import MessageContent from './MessageContent/MessageContent';
 import FormatDate from '../../Common/FormatDate/FormatDate';
 import { GrFormCheckmark } from 'react-icons/gr';
+import { LeftOutlined, RightOutlined } from '@ant-design/icons';
 const ChatItem = ({
   isReciper,
   name,
@@ -53,17 +54,7 @@ const ChatItem = ({
     };
   }, []);
 
-  const handleRemoveMessager = () => {
-    const data = {
-      conversitonId: dataMess.conversationId,
-      messageId: dataMess.messageId,
-    };
-    DeleteMessager(data).then((res) => {
-      setRemoveMess(true);
-      if (res.data) GetMessage(dataMess.conversationId);
-      setAction(false);
-    });
-  };
+
   // console.log('dataMess', dataMess);
   // console.log('imgUser', imgUser);
   // console.log('imgGuest', imgGuest);
@@ -101,7 +92,7 @@ const ChatItem = ({
         case 'image':
           return (
             <>
-              <Image.PreviewGroup
+              <Image.PreviewGroup style={{maxWidth: '95% !important',}}
                 preview={{
                   onChange: (current, prev) =>
                     console.log(`current index: ${current}, prev index: ${prev}`),
@@ -135,6 +126,62 @@ const ChatItem = ({
             </>
           );
       }
+    });
+  };
+
+  const handlePinMess = () => {
+    alert(intl.formatMessage('ghim tin nhắn vào thư mục'));
+    setAction(false);
+  };
+  const handleCopy = (e) => {
+    const chatContent =
+      dataMess.attachments?.length > 0
+        ? handleSendFileImage(dataMess.attachments)
+        : dataMess.messageContent || dataMess.text;
+
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard
+        .writeText(chatContent)
+        .then(() => {
+          setAction(false);
+        })
+        .catch((err) => {
+          console.error('Failed to copy text: ', err);
+        });
+    } else {
+      console.error('Clipboard API not available');
+    }
+  };
+  const handleSelectRemove = () => {
+    const chatContent =
+      dataMess.attachments?.length > 0
+        ? handleSendFileImage(dataMess.attachments)
+        : dataMess.messageContent || dataMess.text;
+
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard
+        .writeText(chatContent)
+        .then(() => {
+          setShowSelects(true);
+          setAction(false);
+          onSelectMessage({ id: dataMess.messageId, content: chatContent });
+        })
+        .catch((err) => {
+          console.error('Không thể sao chép văn bản');
+        });
+    } else {
+      console.error('Clipboard API không khả dụng');
+    }
+  };
+  const handleRemoveMessager = () => {
+    const data = {
+      conversitonId: dataMess.conversationId,
+      messageId: dataMess.messageId,
+    };
+    DeleteMessager(data).then((res) => {
+      setRemoveMess(true);
+      if (res.data) GetMessage(dataMess.conversationId);
+      setAction(false);
     });
   };
   return (
@@ -172,11 +219,9 @@ const ChatItem = ({
                   {dataMess.attachments?.length > 0 ? (
                     <div className="msg-text">
                       {handleSendFileImage(dataMess.attachments)}
-                      {/* <div>{dataMess.messageContent ? dataMess.messageContent : undefined}</div> */}
                       <MessageContent messageContent={dataMess.messageContent} />
                     </div>
                   ) : (
-                    // <div className="msg-text">{dataMess.text ? dataMess.text : text}</div>
                     <MessageContent messageContent={dataMess.messageContent || dataMess.text} />
                   )}
                   <div className="msg-info">
@@ -191,7 +236,57 @@ const ChatItem = ({
                   </span>
                   {action && (
                     <div ref={actionRef} className="msg-Action">
-                      {/* <span className="msg-ActionEdit action">Sao chép</span> */}
+                      <span
+                        className="msg-ActionDel action menuPin"
+                        onClick={(e) => e.preventDefault()}
+                      >
+                        <div
+                          style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '5px',
+                            justifyContent: 'center',
+                          }}
+                        >
+                          {dataMess.messageType === 0 ? (
+                            <>
+                              <span>Ghim tin nhắn</span>
+                              <RightOutlined style={{ fontSize: '12px' }} />
+                            </>
+                          ) : (
+                            <>
+                              <LeftOutlined style={{ fontSize: '12px' }} />
+                              <span>Ghim tin nhắn</span>
+                            </>
+                          )}
+
+                          <ul
+                            className={`subMenuPin `}
+                            style={
+                              dataMess.messageType === 0 ? { left: '100%' } : { right: '100%' }
+                            }
+                          >
+                            <li onClick={handlePinMess}>
+                              Thư mục 1
+                            </li>
+                            <li onClick={handlePinMess}>
+                              Thư mục 1
+                            </li>
+                            <li onClick={handlePinMess}>
+                              Thư mục 1
+                            </li>
+                            <li onClick={handlePinMess}>
+                              Thư mục 1
+                            </li>
+                          </ul>
+                        </div>
+                      </span>
+                      <span className="msg-ActionDel action" onClick={handleCopy}>
+                        Coppy
+                      </span>
+                      <span className="msg-ActionDel action" onClick={handleSelectRemove}>
+                        Chọn tin nhắn
+                      </span>
                       <span className="msg-ActionDel action" onClick={handleRemoveMessager}>
                         Xóa
                       </span>

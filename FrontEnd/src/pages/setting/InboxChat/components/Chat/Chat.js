@@ -6,8 +6,9 @@ import { useLocalStorage } from '@/hooks/useLocalStorage';
 import './Chat.css';
 import { useDispatch } from 'react-redux';
 import { seenMessageAction } from '@/slices/seenMessageSlice';
+import { QueryClient, QueryClientProvider } from 'react-query';
 
-function Chat(props) {
+function Chat() {
   const [stateHide, setStateHide] = useState(true);
   const [emptyChat, setEmptyChat] = useState(true);
   const [typing, setTyping] = useState(false);
@@ -28,6 +29,12 @@ function Chat(props) {
     // if (localState !== "") setEmptyChat(false)
   }, []);
 
+  // useEffect(() => {
+  //   Get().then(res => console.log(res.data))
+
+  // }, [])
+  // console.log(chatToken);
+  /////////////////////
   // chỗ này sau t call api mà à t tơởng biến
   const chatToken = useMemo(
     () => ({
@@ -101,6 +108,20 @@ function Chat(props) {
           );
         }
 
+        // if (data?.message?.event === "mesage.created" && data?.message?.data?.attachments.length > 0) {
+        //   const attachments = data?.message?.data?.attachments
+        //   attachments.map((attachment) => {
+        //     setAttachment({
+        //       attachmentId: attachment.id,
+        //       messageId: attachment.message_id,
+        //       fileType: attachment.file_type,
+        //       dataUrl: attachment.data_url,
+        //       thumbUrl: attachment.thumb_url,
+        //       fileSize: attachment.file_size,
+        //     })
+        //   })
+        // }
+
         //này là user support
         if (data?.message?.event === 'message.created' && data?.message?.data?.message_type === 1) {
           const newAgentChat = data.message?.data;
@@ -132,10 +153,11 @@ function Chat(props) {
             attachments: newChat.attachments,
             senderName: newChat.sender?.name,
             accountID: newChat.account_id,
-            senderThumbnail: newChat.sender.thumbnail,
+            senderThumbnail: newChat.sender?.thumbnail,
             sender: newChat.sender,
             messageType: newChat.message_type,
             seenMessage: true,
+            unread_count: newChat.conversation.unread_count,
           });
 
           setSortID(() => {
@@ -173,36 +195,39 @@ function Chat(props) {
     };
     () => {};
   }, []);
-
   const [selectedItem, setSelectedItem] = useState(true);
-  console.log(selectedItem);
+
   return (
     <div className="chat">
+      <QueryClientProvider client={new QueryClient()}>
       {selectedItem === true ? (
         <Sidebar
-          style={{ width: '210vh', marginLeft: '-30px' }}
           conversion={conversion}
+          setEmptyChat={setEmptyChat}
           sortID={sortID}
           chat={chat}
           agentChat={agentChat}
           lastMessage={lastMessage}
           selectedItem={selectedItem}
+          setSelectedItem={setSelectedItem}
         />
-      ) : (
+      ):(
         <ContentChat
           attachment={attachment}
           chat={chat}
           agentChat={agentChat}
           setStateHide={setStateHide}
           stateHide={stateHide}
+          emptyChat={emptyChat}
           typing={typing}
           conversationId={converSationId}
+          selectedItem={selectedItem}
+          setSelectedItem={setSelectedItem}
         />
       )}
-      {/* <ProfileChat stateHide={stateHide} /> */}
-      {/* <Sidebar conversion={conversion} setEmptyChat={setEmptyChat} sortID={sortID} chat={chat} agentChat={agentChat} lastMessage={lastMessage} />
-      <ContentChat attachment={attachment} chat={chat} agentChat={agentChat} setStateHide={setStateHide} stateHide={stateHide} emptyChat={emptyChat} typing={typing} conversationId={converSationId} />
-      <ProfileChat stateHide={stateHide} /> */}
+        
+         {/* <ProfileChat stateHide={stateHide} setStateHide={setStateHide} /> */}
+      </QueryClientProvider>
     </div>
   );
 }

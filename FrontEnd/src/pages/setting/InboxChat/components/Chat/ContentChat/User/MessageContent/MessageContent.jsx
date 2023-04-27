@@ -10,7 +10,7 @@ function MessageContent({ messageContent }) {
   const isLink = urlRegex.test(messageContent);
 
   if (regexString.test(messageContent) && messageContent.length > 0) {
-    return <div style={{ fontSize: '26px' }}>{messageContent}</div>;
+    return <div style={{ fontSize: '12px !important' }}>{messageContent}</div>;
   }
 
   if (ytb && ytb[2].length === 11) {
@@ -23,9 +23,10 @@ function MessageContent({ messageContent }) {
           width="420"
           height="345"
           src={`https://www.youtube.com/embed/${id}?controls=1`}
+          style={{fontSize: '12px !important'}}
         ></iframe>
         <a
-          style={{ color: '#fff', textDecoration: 'underline' }}
+          style={{ color: '#fff', textDecoration: 'underline',fontSize: '12px !important'  }}
           target="_blank"
           href={messageContent}
         >
@@ -38,7 +39,7 @@ function MessageContent({ messageContent }) {
   if (isLink) {
     return (
       <a
-        style={{ color: '#fff', textDecoration: 'underline' }}
+        style={{ color: '#fff', textDecoration: 'underline',fontSize: '12px' }}
         target="_blank"
         href={messageContent}
       >
