@@ -124,7 +124,7 @@ function AddGroupsToDK({ onSelectMethod }) {
         <ListGroups />
       ) : (
         <>
-          <div style={{marginTop: "35px" }}>
+          <div style={{marginTop: "170px" }}>
             <h2
               style={{
                 marginBottom: '20px',

@@ -277,7 +277,7 @@ const AdsCampaign = () => {
                           })}
                         </button>
                         <List
-                          style={{ width: '420px', marginLeft: '-40px',marginTop: "80px" }}
+                          style={{ width: '420px', marginLeft: '-40px',marginTop: "170px" }}
                           dataSource={dataTable}
                           renderItem={(item) => (
                             <List.Item

@@ -125,7 +125,7 @@ function AddGroupsToTags({ onSelectMethod }) {
       {createAdd ? (
         <ListGroups />
       ) : (
-        <div style={{marginTop: "35px" }}>
+        <div style={{marginTop: "170px" }}>
           <>
             <h2
               style={{

@@ -14,7 +14,7 @@ export default function LabTabs() {
   };
 
   return (
-    <div style={{ marginTop: '80px' }}>
+    <div style={{ marginTop: '170px' }}>
       <Chat />
     </div>
   );

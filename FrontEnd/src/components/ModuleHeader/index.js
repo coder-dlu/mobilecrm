@@ -386,7 +386,7 @@ export default function Header() {
   }, []);
 
   return (
-    <div>
+    <div style={{position: 'fixed',zIndex: '600'}}>
       <Row className="Header-component" style={{ width: '100%',overflowX: 'none'}}>
         <Col span={24} className="module-head-form ">
           <Col className="module-head" xxl={1} xl={2} lg={5} sm={5} xs={8}>

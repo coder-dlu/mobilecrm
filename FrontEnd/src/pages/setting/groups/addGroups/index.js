@@ -86,7 +86,7 @@ function AddGroups({ closeCreate, handleShowAddGroups }) {
         <form style={{ width: '50%' }}>
           <>
             {selectMethod ? (
-              <div style={{marginTop: "35px" }}>
+              <div style={{marginTop: "170px" }}>
                 <h2 style={{ marginBottom: '20px', borderBottom: '1px solid #ccc' }}>
                   {intl.formatMessage({ id: 'pages.setting.groups.titleAddGroup' })}
                 </h2>

@@ -372,7 +372,7 @@ function AddCampaign({ closeCreate }) {
       </Modal>
       {/* ---------select Template end -----------*/}
 
-      <div className="FlexBlock" style={{ width: '50%', marginTop: '20px ', display: 'block' }}>
+      <div className="FlexBlock" style={{ width: '50%', marginTop: '160px ', display: 'block' }}>
         <div className="widthData">
           <h2 style={{ marginBottom: '20px', padding: '20px 0', borderBottom: '1px solid #ccc',marginTop: "90px" }}>
             {intl.formatMessage({ id: 'pages.setting.adsCampaign.titleAddCampaign' })}
