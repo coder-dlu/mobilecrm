@@ -40,7 +40,7 @@ function ViewGroups(props) {
   const classes = useStyles();
 
   return (
-    <div style={{ paddingTop: '32px' }}>
+    <div style={{ paddingTop: '170px' }}>
       <h2 style={{ borderBottom: '1px solid #ccc' }}>{intl.formatMessage({ id: 'pages.setting.groups.titleView' })}</h2>
       <div>
         <div className="mb">
