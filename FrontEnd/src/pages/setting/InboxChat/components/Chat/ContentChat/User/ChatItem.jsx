@@ -65,9 +65,9 @@ const ChatItem = ({
       case (dataMess.messageType === 0 && dataMess.senderThumbnail === '') || imgGuest === '':
         return <div className="avatarSend">{dataMess?.senderName.slice(0, 2)}</div>;
       case (dataMess.messageType === 1 && dataMess.senderThumbnail === '') || imgUser === '':
-        return <div className="avatarSend">{dataMess?.senderName.slice(0, 2)}</div>;
+        return <div className="avatarSend1">{dataMess?.senderName.slice(0, 2)}</div>;
       case (dataMess.messageType === 1 && dataMess.senderThumbnail !== '') || imgUser !== '':
-        return <div className="avatarSend">{imgUser ? imgUser : dataMess.senderThumbnail}</div>;
+        return <div className="avatarSend1">{imgUser ? imgUser : dataMess.senderThumbnail}</div>;
     }
 
     // if (dataMess.senderThumbnail !== '') {
