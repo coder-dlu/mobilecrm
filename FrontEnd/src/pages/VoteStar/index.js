@@ -66,7 +66,7 @@ const VoteStar = () => {
                 <div>
                     <div>
                         <Typography.Text style={{ fontSize: '20px' }}>Tên Khách: </Typography.Text>
-                        <Typography.Text style={{ fontSize: '20px' }}>Lê Hoài Thanh</Typography.Text>
+                        <Typography.Text style={{ fontSize: '20px' }}>Lê Hoài HH</Typography.Text>
                     </div>
                     <div>
                         <Typography.Text style={{ fontSize: '20px' }}>Phòng: </Typography.Text>

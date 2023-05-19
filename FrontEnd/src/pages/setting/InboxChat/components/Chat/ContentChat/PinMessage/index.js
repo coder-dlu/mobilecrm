@@ -28,9 +28,9 @@ export default function PinMessage({ openPinMessage, closePinMessage, size }) {
             <Collapse defaultActiveKey={['1']} onChange={onChange}>
                 <Panel header={intl.formatMessage({ id: 'pages.setting.chat.foder' })} key="1">
                     <ul className='pin'>
-                        <li className='pinMess'>Thanh: Hello world !</li>
-                        <li className='pinMess'>Thanh: Ghim tin nhắn này !</li>
-                        <li className='pinMess'>Thanh: gút baiii !</li>
+                        <li className='pinMess'>HH: Hello world !</li>
+                        <li className='pinMess'>HH: Ghim tin nhắn này !</li>
+                        <li className='pinMess'>HH: gút baiii !</li>
                     </ul>
                 </Panel>
                 <Panel header={intl.formatMessage({ id: 'pages.setting.chat.foder2' })} key="2">

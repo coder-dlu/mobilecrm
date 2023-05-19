@@ -106,7 +106,7 @@ function ProfileChat({ stateHide,setStateHide }) {
             {dropMessReply && (
               <div>
                 <div className="historyMess">
-                  <h5 className="historyMess-name">Thanh</h5>
+                  <h5 className="historyMess-name">HH</h5>
                   <div className="historyMess-reply">
                     <HiOutlineReply style={{ marginRight: '6px', width: '20px' }} />
                     <p className="historyMess-content">
@@ -115,7 +115,7 @@ function ProfileChat({ stateHide,setStateHide }) {
                   </div>
                 </div>
                 <div className="historyMess">
-                  <h5 className="historyMess-name">Thanh</h5>
+                  <h5 className="historyMess-name">HH</h5>
                   <div className="historyMess-reply">
                     <HiOutlineReply style={{ marginRight: '6px', width: '20px' }} />
                     <p className="historyMess-content">Hẹn gặp lại quý khách.</p>
