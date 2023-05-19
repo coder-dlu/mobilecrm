@@ -172,7 +172,6 @@ function AddCampaign({ closeCreate }) {
   const handleCloseSearchGroups = () => {
     setOpenSearchGroups(false);
   };
-  console.log('test', selectedRows);
   const handRemoveGroups = (index) => {
     const newGroups = [...groupsList];
     newGroups.splice(index, 1);

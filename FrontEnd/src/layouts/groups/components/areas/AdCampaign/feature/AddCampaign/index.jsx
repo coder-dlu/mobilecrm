@@ -67,7 +67,6 @@ function AddCampaign() {
       headerName: 'Xem', width: 130,
       renderCell: (cell) => (
         <Button onClick={e => {
-          console.log('e', e, 'cell', cell)
           onViewAdCampaign(e, cell);
           setOpen(true)
 
@@ -105,7 +104,6 @@ function AddCampaign() {
     },
   ];
   const { adCampaign, setAdCampaign } = useStateContext();
-  // console.log(adCampaign);
 
   const onViewAdCampaign = (e, cell) => {
     console.log('view', cell)
@@ -143,8 +141,6 @@ function AddCampaign() {
   const [selectedRows, setSelectedRows] = React.useState([]);
 
   const [groupsList, setGroupsList] = useState([])
-  console.log('gr', groupsList)
-
   const onClickOpen = () => setOpenCreate(true);
 
   const onClose = () => setOpenCreate(false);
@@ -199,7 +195,6 @@ function AddCampaign() {
   }
   const onClickCheckMethod = (e) => {
     setMethod(e.target.value)
-    console.log(e.target.value)
   }
 
   const handleCloseSearchGroups = () => {

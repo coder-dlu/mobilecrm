@@ -13,7 +13,6 @@ function ContentChat() {
   const [showEmoji, setShowEmoji] = useState(false);
   const [cursorPosition, setCursorPosition] = useState();
   const emojiRef = useRef();
-  // console.log(showEmoji)
 
   const pickEmoji = ({ emoji }, e) => {
     const ref = inputRef.current;
@@ -69,24 +68,10 @@ function ContentChat() {
   const connection = new WebSocket('wss://chat.onexus.net/cable');
 
   connection.onopen = () => {
-    // CreateAContact();
-
-    // const agentPayload = stringify({
-    //   command: 'message',
-    //   identifier: stringify({
-    //     channel: 'RoomChannel',
-    //     pubsub_token: pubSubToken,
-    //   }),
-    // });
-
-    // connection.send(agentPayload);
   };
 
   connection.onmessage = async (message) => {
-    // Log the message we recieve:
     console.log('Received data:', message.data);
-
-    // Close the websocket after receiving the message
     connection.close();
   };
 

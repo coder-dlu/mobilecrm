@@ -29,8 +29,6 @@ const Dailyoder = () => {
                   <DatePicker
                     dateValue={[beginDate, endDate]}
                     onChange={(from, to) => {
-                      console.log(from);
-                      console.log(to);
                       setBeginDate(from);
                       setEndDate(to);
                     }}

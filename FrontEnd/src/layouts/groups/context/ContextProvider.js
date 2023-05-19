@@ -31,7 +31,6 @@ export const ContextProvider = ({ children }) => {
   }, [maKhach]);
 
   useEffect(() => {
-    // console.log(maKhach)
     if (action === 'Edit') {
       unConfirmedGuess
         ? (codes.current = unConfirmedGuess

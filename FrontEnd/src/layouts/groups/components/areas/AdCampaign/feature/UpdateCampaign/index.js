@@ -80,8 +80,6 @@ function UpdateAdCampaign({ Data, dataAdCampaign }) {
             for (var name = 0; name < groupsList.length; name++) {
                 groupIds.push(checkedGroup[name].id)
             }
-
-            console.log(groupIds)
             const data = {
                 "id": Data.row.id,
                 "time": time.$d,

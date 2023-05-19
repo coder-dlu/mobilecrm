@@ -10,11 +10,7 @@ import { getGroup, getListAdCampaign, sendMuiltibleChannel } from '@/untils/requ
 import { ToastContainer, toast } from 'react-toastify';
 function ViewCampaign({ Data, test }) {
     const [listdata, setListData] = React.useState([])
-    console.log(listdata)
-    console.log(Data)
-
     useEffect(() => {
-        // getGroup('de').then(res => console.log(res.data))
         getListAdCampaign().then(res => setListData(res.data))
 
     }, [])

@@ -441,7 +441,6 @@ export default function EnhancedTable() {
     }
 
     setSelected(newSelected);
-    // console.log(newSelected);
   };
 
   const handleChangePage = (event, newPage) => {
