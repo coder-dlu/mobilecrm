@@ -1,17 +1,15 @@
 import Button from '@mui/material/Button';
 import { Input } from 'antd';
 import { useState } from 'react';
-//===========inputTags==================
 import { notification } from '@/components/Notification';
 import ListGroups from '../ListGroup';
 import './index.css';
-//===========/inputTags=================
 import { useIntl } from 'umi';
+import { CreateGroup } from '@/untils/request';
 
 function AddGroupsToDK({ onSelectMethod }) {
   const intl = useIntl();
   const [createAdd, setCreateAdd] = useState(false);
-  //===============Điều kiện===================
   const [inputRows, setInputRows] = useState([
     {
       firstCell: 'Gender',
@@ -53,10 +51,6 @@ function AddGroupsToDK({ onSelectMethod }) {
     newInputRows[index].thirdCell = value;
     setInputRows(newInputRows);
   };
-
-  //===============/Điều kiện==================
-
-  //================sự kiện=====================
   const [Name, setName] = useState('');
   const [Description, setDescription] = useState('');
   const onChangeContentName = (e) => {
@@ -66,23 +60,21 @@ function AddGroupsToDK({ onSelectMethod }) {
     setDescription(e.target.value);
   };
   const handleSubmit = async (e) => {
-    //================filter=======================
     const numCondition = inputRows.length;
     const conditions = [
       ...inputRows.map((row) => ({
         filterName: row.firstCell,
         filterOps: row.secondCell,
-        filterValue: row.thirdCell,
+        filterValue: isNaN(row.thirdCell) ? row.thirdCell : row.thirdCell.toString(),
       })),
     ];
     const Filter = conditions
       .map((condition) => JSON.stringify(condition))
       .join(',')
-      .replace(/"/g, '\\"')
+      // .replace(/"/g, '\\"')
+      .replace(/"/g, '"')
       .replace(/^{/, '[{')
       .replace(/}$/, '}]');
-
-    //===============/filter========================
     switch (true) {
       case Name.trim().length === 0:
         return notification.warning(intl.formatMessage({ id: 'pages.setting.groups.enterName' }));
@@ -92,39 +84,42 @@ function AddGroupsToDK({ onSelectMethod }) {
         );
     }
     try {
-      // Create FormData object
       const formData = new FormData();
       formData.append('Name', Name);
       formData.append('Description', Description);
       formData.append('Type', 1);
       formData.append('Filter', Filter);
       // Send data to API
-      const response = await fetch('http://api.cm.onexus.net/api/Group/CreateGroup', {
-        method: 'POST',
-        body: formData,
+      // const response = await fetch(
+      //   'http://api.cm.onexus.net/api/Group/CreateGroup',
+      //   {
+      //     method: 'POST',
+      //     body: formData,
+      //   },
+      //   {
+      //     auth: { username: authorize_username, password: authorize_password },
+      //   }
+      // );
+      CreateGroup(formData).then(() => {
+        notification.success(intl.formatMessage({ id: 'pages.setting.groups.createGroupSuccess' }));
       });
       const data = await response.json();
-
-      // Handle response data here
       console.log(data);
     } catch (error) {
       console.error(error);
     }
-    //Sau khi tạo nhóm thành công, ẩn component AddGroupsToTags và hiển thị component Groups
     setCreateAdd(true);
     return notification.success(
       intl.formatMessage({ id: 'pages.setting.groups.createGroupSuccess' }),
     );
   };
-
-  //================/sự kiện======================
   return (
     <div>
       {createAdd ? (
         <ListGroups />
       ) : (
         <>
-          <div style={{marginTop: "170px" }}>
+          <div style={{ marginTop: '170px' }}>
             <h2
               style={{
                 marginBottom: '20px',
@@ -142,19 +137,14 @@ function AddGroupsToDK({ onSelectMethod }) {
                   <p className="title" style={{ width: '150px', margin: '0' }}>
                     {intl.formatMessage({ id: 'pages.setting.groups.nameGroup' })}:{' '}
                   </p>
-                  <Input
-                    onChange={onChangeContentName}
-                  />
+                  <Input onChange={onChangeContentName} />
                 </div>
                 <div>
-                  <p className="title" style={{ width: '150px',margin: '0',paddingTop:"15px"}}>
+                  <p className="title" style={{ width: '150px', margin: '0', paddingTop: '15px' }}>
                     {intl.formatMessage({ id: 'pages.setting.groups.descriptionGroup' })}:{' '}
                   </p>
-                  <Input
-                    onChange={onChangeContentDescription}
-                  />
+                  <Input onChange={onChangeContentDescription} />
                 </div>
-                {/* ======================================== */}
                 <div>
                   <div className="d-flex justify-content-center my-3">
                     {intl.formatMessage({
@@ -260,38 +250,16 @@ function AddGroupsToDK({ onSelectMethod }) {
                                 type="number"
                                 value={inputRow.thirdCell}
                                 onChange={(e) => {
-                                  const value = parseInt(e.target.value); // chuyển giá trị nhập vào sang kiểu số nguyên
+                                  const value = parseInt(e.target.value);
                                   if (Number.isInteger(value) && value > 0) {
-                                    // kiểm tra giá trị nhập vào có phải số nguyên dương không
                                     handleThirdCellChange(index, value);
                                   }
                                 }}
                               />
                             )}
                           </td>
-                          {/* <td style={{ width: '50px', paddingLeft: '10px' }}>
-                            <button
-                              onClick={() => handleDeleteInputRow(index)}
-                              style={{ border: 'none', backgroundColor: '#fff' }}
-                            >
-                              <svg
-                                stroke="currentColor"
-                                fill="currentColor"
-                                stroke-width="0"
-                                viewBox="0 0 1024 1024"
-                                data-inspector-line="429"
-                                data-inspector-column="26"
-                                data-inspector-relative-path="src\layouts\groups\tabs\Group.js"
-                                height="1em"
-                                width="1em"
-                                xmlns="http://www.w3.org/2000/svg"
-                              >
-                                <path d="M360 184h-8c4.4 0 8-3.6 8-8v8h304v-8c0 4.4 3.6 8 8 8h-8v72h72v-80c0-35.3-28.7-64-64-64H352c-35.3 0-64 28.7-64 64v80h72v-72zm504 72H160c-17.7 0-32 14.3-32 32v32c0 4.4 3.6 8 8 8h60.4l24.7 523c1.6 34.1 29.8 61 63.9 61h454c34.2 0 62.3-26.8 63.9-61l24.7-523H888c4.4 0 8-3.6 8-8v-32c0-17.7-14.3-32-32-32zM731.3 840H292.7l-24.2-512h487l-24.2 512z"></path>
-                              </svg>
-                            </button>
-                          </td> */}
                           <td style={{ width: '50px', paddingLeft: '10px' }}>
-                          {index === inputRows.length - 1 && inputRows.length > 1  ? (
+                            {index === inputRows.length - 1 && inputRows.length > 1 ? (
                               <button
                                 onClick={() => handleDeleteInputRow(index)}
                                 style={{ border: 'none', backgroundColor: '#fff' }}
@@ -311,16 +279,14 @@ function AddGroupsToDK({ onSelectMethod }) {
                                   <path d="M360 184h-8c4.4 0 8-3.6 8-8v8h304v-8c0 4.4 3.6 8 8 8h-8v72h72v-80c0-35.3-28.7-64-64-64H352c-35.3 0-64 28.7-64 64v80h72v-72zm504 72H160c-17.7 0-32 14.3-32 32v32c0 4.4 3.6 8 8 8h60.4l24.7 523c1.6 34.1 29.8 61 63.9 61h454c34.2 0 62.3-26.8 63.9-61l24.7-523H888c4.4 0 8-3.6 8-8v-32c0-17.7-14.3-32-32-32zM731.3 840H292.7l-24.2-512h487l-24.2 512z"></path>
                                 </svg>
                               </button>
-                            ):(<td style={{ width: '50px' }}></td>)}
-
+                            ) : (
+                              <td style={{ width: '50px' }}></td>
+                            )}
                           </td>
                         </tr>
                       ))}
                     </tbody>
                   </table>
-
-                  {/* =======================DK====================== */}
-
                   <div className="d-flex justify-content-between my-3">
                     <Button onClick={handleAddInputRow}>
                       {intl.formatMessage({ id: 'pages.setting.groups.addConditiona' })}
@@ -329,7 +295,6 @@ function AddGroupsToDK({ onSelectMethod }) {
                 </div>
               </div>
             </form>
-            {/* ======================================== */}
             <div style={{ display: 'flex', justifyContent: 'end' }}>
               <Button variant="contained" onClick={onSelectMethod}>
                 {intl.formatMessage({ id: 'pages.setting.groups.btnBack' })}

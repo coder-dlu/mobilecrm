@@ -88,8 +88,6 @@ function ContentChat({
     }
     return () => (mounte = false);
   }, [dataInfoConversation]);
-
-  //!user UI data
   useEffect(() => {
     if (agentChat?.conversation_id != conversation.id) return;
     let mounte = true;
@@ -113,8 +111,6 @@ function ContentChat({
     }
     return () => (mounte = false);
   }, [agentChat]);
-
-  //! user client
   useEffect(() => {
     if (chat?.conversation_id != conversation.id) return;
     let mounte = true;
@@ -135,20 +131,16 @@ function ContentChat({
         ];
       });
     }
-    // }
     return () => (mounte = false);
   }, [chat, conversation?.id, localState]);
-
   useEffect(() => {
     if (refinput.current !== undefined) {
       refinput.current.selectionEnd = cursorPosition;
     }
   }, [cursorPosition]);
-
   useEffect(() => {
     intoViewRef?.current?.scrollIntoView({ behavior: 'smooth' });
   }, [dataMess, conversation]);
-
   const emojiContainerRef = useRef(null);
   const handleShowEmoji = (e) => {
     const Emoji = document.querySelector('.Emoji');
@@ -157,7 +149,6 @@ function ContentChat({
       return setShowEmoji(true);
     } else if (!emojiContainerRef.current.contains(e.target)) return setShowEmoji(false);
   };
-
   useEffect(() => {
     document.addEventListener('click', handleShowEmoji);
     return () => {
@@ -184,8 +175,6 @@ function ContentChat({
     const newDate = moment(datenew).startOf('hour').fromNow();
     return newDate;
   };
-
-  //////////////////////////////
   const handleChannel = useCallback(() => {
     switch (conversation?.channel) {
       case 'Channel::Telegram':
@@ -205,30 +194,24 @@ function ContentChat({
   }, [conversation?.channel]);
 
   useEffect(() => {
-    //set lại data
     setDataMess([]);
     setLoading(true);
 
     let dataID = conversation?.id;
-    //dataID ? dataID : localState
     GetMessage(dataID).then((res) => {
       setDataMess(res.data);
       setLoading(false);
       if (refChat.current) refChat.current.scrollTop = refChat.current.scrollHeight;
     });
-
-    //thêm
     return () => {
       setDataMess([]);
       setMessage('');
     };
   }, [conversation?.id, localState]);
-  //! user Send
   const handleSend = async (e) => {
     const msgText = refinput.current.value;
     if (!msgText || msgText.trim() === '') return;
     if (selectedFiles.length > 0) {
-      // const fileInput = document.querySelector('.input-file')
       const data = new FormData();
       data.append('message', message);
 
@@ -236,13 +219,11 @@ function ContentChat({
         const file = selectedFiles[i];
         data.append('attachements', file, file.name);
       }
-
       const dataApi = {
         id: conversation?.id,
         content: message,
         data: data,
       };
-      //send File
       SendMessageAttachFiles(dataApi);
       setSelectedFiles([]);
     } else {
@@ -250,12 +231,8 @@ function ContentChat({
         id: conversation?.id,
         content: message,
       };
-      //send Message
       await SendMessager(data);
     }
-    // if (message !== '') {
-    //   setMessage(message => message.replace(/\n/g, ''));
-    // }
     setMessage('');
   };
 
@@ -287,7 +264,7 @@ function ContentChat({
 
   const handleDelete = (i) => {
     const newFiles = [...selectedFiles];
-    newFiles.splice(i, 1); // hoặc: newFiles = newFiles.filter((f, index) => index !== i);
+    newFiles.splice(i, 1);
     setSelectedFiles(newFiles);
   };
 
@@ -321,7 +298,6 @@ function ContentChat({
                   </span>
                 </div>
               </div>
-              {/* BUTTON show profile */}
               <div
                 ref={reficon}
                 style={{ cursor: 'pointer' }}
@@ -365,8 +341,6 @@ function ContentChat({
                 </div>
               </div>
             )}
-
-            {/** footer */}
             <>
               <div className="msger-inputarea">
                 <textarea
@@ -436,7 +410,6 @@ function ContentChat({
         </div>
       ) : (
         <ProfileChat stateHide={stateHide} setStateHide={setStateHide} />
-        // <>ProfileChat </>
       )}
     </>
   );

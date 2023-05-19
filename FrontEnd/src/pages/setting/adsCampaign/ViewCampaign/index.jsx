@@ -15,10 +15,6 @@ function ViewCampaign({ closeView, data, refect }) {
   const [searchText, setSearchText] = useState('');
   const [searchedColumn, setSearchedColumn] = useState('');
   const searchInput = useRef(null);
-  // const [detailData] = useCallApi(
-  //   `http://api.cm.onexus.net/api/CRM/CampaignDetail?campaignId=${data.id}`,
-  //   'get',
-  // );
   const [detailData, setDetailData] = useState({});
   console.log(detailData);
   console.log(data.id);
@@ -37,7 +33,6 @@ function ViewCampaign({ closeView, data, refect }) {
     setConfirmLoading(true);
     setTimeout(() => {
       setOpen(false);
-      //api delete
       deleteAdCampaign(data.id).then((res) => {
         refect(true);
         closeView(false);
@@ -97,7 +92,7 @@ function ViewCampaign({ closeView, data, refect }) {
   return (
     <div>
       <div style={{ marginTop: '90px' }}>
-        <h2 style={{marginLeft: "100px"}}>Xem chiến dịch</h2>
+        <h2 style={{ marginLeft: '100px' }}>Xem chiến dịch</h2>
 
         <div>
           <div className="mb">

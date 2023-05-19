@@ -7,25 +7,32 @@ import IconButton from '@mui/material/IconButton';
 import InputBase from '@mui/material/InputBase';
 import Paper from '@mui/material/Paper';
 import { Skeleton } from 'antd';
+import { DownOutlined, SmileOutlined } from '@ant-design/icons';
+import { Dropdown, Space } from 'antd';
+import { Radio } from 'antd';
 import { memo, useEffect, useState } from 'react';
 import ItemUser from './ItemUser/ItemUser';
 import './Sidebar.css';
 
-function Sidebar({ conversion, setEmptyChat, agentChat, chat, lastMessage, sortID,selectedItem,setSelectedItem }) {
-  // const [data, loading] = useCallApi("http://api.cm.onexus.net/api/Chat/GetConversations", "get")
+function Sidebar({
+  conversion,
+  setEmptyChat,
+  agentChat,
+  chat,
+  lastMessage,
+  sortID,
+  selectedItem,
+  setSelectedItem,
+}) {
   const [conversations, setConversation] = useLocalStorage('conversation');
   const [seenMessge, setSeenMessage] = useLocalStorage('seenConversations', []);
-
   const [dataLastMessage] = useCallApi();
-
   const [data, setData] = useState([]);
   const [dataFilter, setDataFilter] = useState(false);
   const [loading, setLoading] = useState(true);
   const [valueSearch, setValueSearch] = useState();
-
   useEffect(() => {
     if (!chat?.seenMessage) return;
-    // Kiểm tra xem id đã tồn tại trong seenMessages chưa
     const isExist = seenMessge.find((item) => item === chat.conversation_id);
     if (isExist) return;
     setSeenMessage((prevSeenMessages) => {
@@ -33,21 +40,6 @@ function Sidebar({ conversion, setEmptyChat, agentChat, chat, lastMessage, sortI
       return newSeenMessages;
     });
   }, [chat]);
-
-  useEffect(() => {
-    let mounted = true;
-    GetConversations().then((res) => {
-      if (mounted) {
-        setData(res.data);
-        setLoading(false);
-      }
-    });
-
-    return () => {
-      mounted = false;
-    };
-  }, [chat, dataFilter]);
-
   const handleFilter = (e) => {
     setLoading(true);
     const newDatafilter = [...data];
@@ -62,7 +54,6 @@ function Sidebar({ conversion, setEmptyChat, agentChat, chat, lastMessage, sortI
 
     setData(filterConversation);
   };
-
   useEffect(() => {
     let id = sortID;
     let index = -1;
@@ -85,7 +76,33 @@ function Sidebar({ conversion, setEmptyChat, agentChat, chat, lastMessage, sortI
       return chat?.conversation_id.toString() === element.conversationId;
     });
   }, [sortID]);
-  
+  const [value, setValue] = useState('all');
+  const [status, setStatus] = useState('all');
+  const onChange = (e) => {
+    const value = e.target.value;
+    if (value === 'all') {
+      setStatus('all');
+    } else if (value === 'open') {
+      setStatus('open');
+    } else if (value === 'resolved') {
+      setStatus('resolved');
+    } else {
+      setStatus('pending');
+    }
+    setValue(value);
+  };
+  useEffect(() => {
+    let mounted = true;
+    GetConversations(value).then((res) => {
+      if (mounted) {
+        setData(res.data);
+        setLoading(false);
+      }
+    });
+    return () => {
+      mounted = false;
+    };
+  }, [chat, dataFilter, status]);
   return (
     <>
       <div className="wrapperSidebar">
@@ -101,6 +118,16 @@ function Sidebar({ conversion, setEmptyChat, agentChat, chat, lastMessage, sortI
           </IconButton>
           <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
         </Paper>
+        <Radio.Group
+          onChange={onChange}
+          value={value}
+          style={{ marginTop: '10px', display: 'flex' }}
+        >
+          <Radio value={'all'}>All</Radio>
+          <Radio value={'open'}>Open</Radio>
+          <Radio value={'pending'}>Pending</Radio>
+          <Radio value={'resolved'}>Resolved</Radio>
+        </Radio.Group>
         {data.length === 0 && <span>Không tìm thấy</span>}
         <div className="body-user">
           {loading
@@ -128,14 +155,12 @@ function Sidebar({ conversion, setEmptyChat, agentChat, chat, lastMessage, sortI
                     isActive={conversations === item.conversationId}
                     setEmptyChat={setEmptyChat}
                     localIDs={seenMessge}
-
                     selectedItem={selectedItem}
                     setSelectedItem={setSelectedItem}
                   />
                 );
               })}
         </div>
-        {/* <div className="footer"></div> */}
       </div>
     </>
   );

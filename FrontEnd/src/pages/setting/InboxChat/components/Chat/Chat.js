@@ -12,7 +12,6 @@ function Chat() {
   const [stateHide, setStateHide] = useState(true);
   const [emptyChat, setEmptyChat] = useState(true);
   const [typing, setTyping] = useState(false);
-  // const [chatToken, setChatToken] = useState()
   const [chat, setChat] = useState();
   const [conversion, setConversion] = useState();
   const [localState] = useLocalStorage('conversations');
@@ -24,18 +23,7 @@ function Chat() {
   const [sortID, setSortID] = useState();
   const [attachment, setAttachment] = useState();
   const dispatch = useDispatch();
-  // console.log(chat)
-  useEffect(() => {
-    // if (localState !== "") setEmptyChat(false)
-  }, []);
-
-  // useEffect(() => {
-  //   Get().then(res => console.log(res.data))
-
-  // }, [])
-  // console.log(chatToken);
-  /////////////////////
-  // chỗ này sau t call api mà à t tơởng biến
+  useEffect(() => {}, []);
   const chatToken = useMemo(
     () => ({
       accountName: 'CRM Backend',
@@ -47,8 +35,6 @@ function Chat() {
     }),
     [],
   );
-
-  // Sự kiện onopen sẽ được gọi khi kết nối WebSocket đã hoàn tất
   useEffect(() => {
     const stringify = (payload = {}) => JSON.stringify(payload);
     const accountName = chatToken.accountName;
@@ -57,7 +43,6 @@ function Chat() {
     const accountId = chatToken.accountId;
     const userId = chatToken.uid;
     const connection = new WebSocket(chatToken.websocketUrl);
-
     connection.onopen = () => {
       connection.send(
         stringify({
@@ -71,7 +56,6 @@ function Chat() {
           }),
         }),
       );
-
       const userPayload = stringify({
         command: 'message',
         identifier: stringify({
@@ -83,9 +67,7 @@ function Chat() {
         }),
         data: stringify({ action: 'update_presence' }),
       });
-
       connection.send(userPayload);
-
       const agentPayload = stringify({
         command: 'message',
         identifier: stringify({
@@ -94,7 +76,6 @@ function Chat() {
         }),
         data: stringify({ action: 'update_presence' }),
       });
-
       connection.onmessage = (event) => {
         const message1 = JSON.parse(event.data);
 
@@ -107,22 +88,6 @@ function Chat() {
             }),
           );
         }
-
-        // if (data?.message?.event === "mesage.created" && data?.message?.data?.attachments.length > 0) {
-        //   const attachments = data?.message?.data?.attachments
-        //   attachments.map((attachment) => {
-        //     setAttachment({
-        //       attachmentId: attachment.id,
-        //       messageId: attachment.message_id,
-        //       fileType: attachment.file_type,
-        //       dataUrl: attachment.data_url,
-        //       thumbUrl: attachment.thumb_url,
-        //       fileSize: attachment.file_size,
-        //     })
-        //   })
-        // }
-
-        //này là user support
         if (data?.message?.event === 'message.created' && data?.message?.data?.message_type === 1) {
           const newAgentChat = data.message?.data;
           setAgentChat({
@@ -139,13 +104,8 @@ function Chat() {
           });
           setSortID(newAgentChat.conversation_id);
         }
-        //này là client trả về
         if (data?.message?.event === 'message.created' && data?.message?.data?.message_type !== 1) {
           const newChat = data.message?.data;
-          // dispatch(seenMessageAction.handleSeen({
-          //   seen: true,
-          //   conversation_id: newChat.conversation_id,
-          // }))
           setChat({
             conversation_id: newChat.conversation_id,
             content: newChat.content,
@@ -163,7 +123,6 @@ function Chat() {
           setSortID(() => {
             return newChat.conversation_id;
           });
-          // setIdentifier(data?.identifier)
         } else if (data?.message?.event === 'message.created') {
           const newConversiton = data.message?.data;
           setTyping(false);
@@ -189,9 +148,7 @@ function Chat() {
           setConversationId(data?.message?.data?.conversation.id);
         }
       };
-      connection.onerror = (error) => {
-        // console.log('WebSocket error: ' + error);
-      };
+      connection.onerror = (error) => {};
     };
     () => {};
   }, []);
@@ -200,33 +157,32 @@ function Chat() {
   return (
     <div className="chat">
       <QueryClientProvider client={new QueryClient()}>
-      {selectedItem === true ? (
-        <Sidebar
-          conversion={conversion}
-          setEmptyChat={setEmptyChat}
-          sortID={sortID}
-          chat={chat}
-          agentChat={agentChat}
-          lastMessage={lastMessage}
-          selectedItem={selectedItem}
-          setSelectedItem={setSelectedItem}
-        />
-      ):(
-        <ContentChat
-          attachment={attachment}
-          chat={chat}
-          agentChat={agentChat}
-          setStateHide={setStateHide}
-          stateHide={stateHide}
-          emptyChat={emptyChat}
-          typing={typing}
-          conversationId={converSationId}
-          selectedItem={selectedItem}
-          setSelectedItem={setSelectedItem}
-        />
-      )}
-        
-         {/* <ProfileChat stateHide={stateHide} setStateHide={setStateHide} /> */}
+        {selectedItem === true ? (
+          <Sidebar
+            conversion={conversion}
+            setEmptyChat={setEmptyChat}
+            sortID={sortID}
+            chat={chat}
+            agentChat={agentChat}
+            lastMessage={lastMessage}
+            selectedItem={selectedItem}
+            setSelectedItem={setSelectedItem}
+          />
+        ) : (
+          <ContentChat
+            attachment={attachment}
+            chat={chat}
+            agentChat={agentChat}
+            setStateHide={setStateHide}
+            stateHide={stateHide}
+            emptyChat={emptyChat}
+            typing={typing}
+            conversationId={converSationId}
+            selectedItem={selectedItem}
+            setSelectedItem={setSelectedItem}
+          />
+        )}
+        {/* <ProfileChat stateHide={stateHide} setStateHide={setStateHide} /> */}
       </QueryClientProvider>
     </div>
   );

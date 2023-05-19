@@ -53,7 +53,6 @@ const AdsCampaign = () => {
   }, [a, refectDel]);
 
   useEffect(() => {
-    // getTemplateIncom(res => console.log(res.data))
     const element = document.querySelectorAll('.ant-table-row');
     element.forEach((item, i) => {
       if (i % 2 !== 0) {
@@ -205,8 +204,6 @@ const AdsCampaign = () => {
   const handleCreate = () => {
     setA(true);
   };
-
-  // ===========tab===========
   const [activeTab, setActiveTab] = useState('');
   useEffect(() => {
     setActiveTab('tab1');
@@ -216,8 +213,7 @@ const AdsCampaign = () => {
     setActiveTab(tab);
   };
   const onDeleteAdsCampaign = async (e, item) => {
-    // console.log(item.id)
-    e.stopPropagation(); // stop propagation to prevent triggering onClick for parent elements
+    e.stopPropagation();
     try {
       await deleteAdCampaign(item.id);
       setData(data.filter((AdsCampaign) => AdsCampaign.id !== item.id));
@@ -225,9 +221,6 @@ const AdsCampaign = () => {
       console.error(error);
     }
   };
-
-  // ===========/tab===========
-
   return (
     <div className="tab-content">
       <Row gutter={[8, 8]}>
@@ -277,14 +270,22 @@ const AdsCampaign = () => {
                           })}
                         </button>
                         <List
-                          style={{ width: '420px', marginLeft: '-40px',marginTop: "170px" }}
+                          style={{ width: '420px', marginLeft: '-40px', marginTop: '170px' }}
                           dataSource={dataTable}
                           renderItem={(item) => (
                             <List.Item
                               className="itemAdsCampaignMain"
                               actions={[
-                                <div style={{ display: 'flex', marginLeft: '228%',marginTop: "10px"}}>
-                                  <button className="btnCreate" onClick={(e) => {setOpenView(true);setDataView(item);}}>
+                                <div
+                                  style={{ display: 'flex', marginLeft: '228%', marginTop: '10px' }}
+                                >
+                                  <button
+                                    className="btnCreate"
+                                    onClick={(e) => {
+                                      setOpenView(true);
+                                      setDataView(item);
+                                    }}
+                                  >
                                     Xem
                                   </button>
                                   <button className="btnCreate" style={{ marginLeft: '10px' }}>
@@ -304,21 +305,27 @@ const AdsCampaign = () => {
                                 boxShadow: '2px 2px 5px #ccc',
                                 marginBottom: '10px',
                                 display: 'block',
-                                height: "200px"
+                                height: '200px',
                               }}
                             >
-                              <div style={{ marginLeft: '10px',height:"130px" }}>
+                              <div style={{ marginLeft: '10px', height: '130px' }}>
                                 <p>Tên chiến dịch: {item.campaignName}</p>
-                                <div style={{ display: 'flex'}}>
-                                  <p style={{width: "180px" }}>Nhóm: {item.groups}</p>
-                                  <p style={{marginLeft:'15px'}}>teamplate: {item.mode}</p>
+                                <div style={{ display: 'flex' }}>
+                                  <p style={{ width: '180px' }}>Nhóm: {item.groups}</p>
+                                  <p style={{ marginLeft: '15px' }}>teamplate: {item.mode}</p>
                                 </div>
                                 <div style={{ display: 'flex' }}>
-                                  <p style={{width: "180px" }}>Thời gian: {item.time}</p>
-                                  <p style={{marginLeft:'15px'}}>Trạng thái: {item.status}</p>
+                                  <p style={{ width: '180px' }}>Thời gian: {item.time}</p>
+                                  <p style={{ marginLeft: '15px' }}>Trạng thái: {item.status}</p>
                                 </div>
                               </div>
-                              <div style={{width: "100%",height: "1px",borderBottom: "1px solid #c7c2c2"}}></div>
+                              <div
+                                style={{
+                                  width: '100%',
+                                  height: '1px',
+                                  borderBottom: '1px solid #c7c2c2',
+                                }}
+                              ></div>
                             </List.Item>
                           )}
                         />

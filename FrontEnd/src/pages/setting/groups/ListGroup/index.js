@@ -32,7 +32,6 @@ function ListGroups() {
   const handleCancelMethod = () => {
     setIsModalOpen(false);
   };
-  //=================lấy data===========
   const [data, setData] = useState([]);
   useEffect(() => {
     getListGroups().then((res) => setData(res.data));
@@ -44,10 +43,6 @@ function ListGroups() {
       groupDescription: item.groupDescription,
     };
   });
-
-  //=================lấy data===========
-
-  //==============View Group============
   const [openView, setOpenView] = useState(false);
   const [id, setId] = useState(null);
 
@@ -56,9 +51,8 @@ function ListGroups() {
     setId(item.id);
     setOpenView(true);
   };
-  //==============/View Group============
   const onDeleteGroup = async (e, item) => {
-    e.stopPropagation(); // stop propagation to prevent triggering onClick for parent elements
+    e.stopPropagation();
     try {
       await deleteGroup(item.id);
       setData(data.filter((group) => group.id !== item.id));
@@ -190,20 +184,16 @@ function ListGroups() {
         success;
       }, 3000);
     });
-  // ===========color row table===========
   const rowClassName = (record, rowIndex) => {
     if (rowIndex % 2 === 0) {
       return 'row-even';
     }
     return 'row-odd';
   };
-  // ===========/color row table===========
   const [showList, setShowList] = useState(true);
   if (!showList) {
     return null;
   }
-
-  //=================Thêm nhóm==========
   const [showAddGroups, setShowAddGroups] = useState(false);
   const handleShowAddGroups = () => {
     setShowAddGroups(!showAddGroups);
@@ -212,7 +202,6 @@ function ListGroups() {
     setOpenView(false);
     console.log(openView);
   };
-  //=================Thêm nhóm==========
   return (
     <div>
       {openView ? (
@@ -241,13 +230,13 @@ function ListGroups() {
                 {intl.formatMessage({ id: 'pages.setting.groups.btnAddGroup' })}
               </button>
               <List
-                style={{ width: '420px', marginLeft: '-40px',marginTop: "170px" }}
+                style={{ width: '420px', marginLeft: '-40px', marginTop: '170px' }}
                 dataSource={dataTable}
                 renderItem={(item) => (
                   <List.Item
                     className="item"
                     actions={[
-                      <div style={{ display: 'flex',marginLeft: "234%",marginTop: "8px" }}>
+                      <div style={{ display: 'flex', marginLeft: '234%', marginTop: '8px' }}>
                         <button
                           className="btnCreate"
                           onClick={(e) => {
@@ -257,7 +246,7 @@ function ListGroups() {
                         >
                           Xem
                         </button>
-                        <button className="btnCreate" style={{marginLeft: "10px"}}>
+                        <button className="btnCreate" style={{ marginLeft: '10px' }}>
                           <Popconfirm
                             placement="left"
                             title={`Bạn có chắc chắn muốn xóa nhóm?`}
@@ -270,13 +259,20 @@ function ListGroups() {
                         </button>
                       </div>,
                     ]}
-                    style={{ boxShadow: '2px 2px 5px #ccc', marginBottom: '10px',display: "block",height: "140px"}}
+                    style={{
+                      boxShadow: '2px 2px 5px #ccc',
+                      marginBottom: '10px',
+                      display: 'block',
+                      height: '140px',
+                    }}
                   >
                     <div style={{ marginLeft: '10px' }}>
                       <p>Tên nhóm: {item.groupName}</p>
                       <p>Mô tả: {item.groupDescription}</p>
                     </div>
-                    <div style={{ width: "100%",height: "1px",borderBottom: "1px solid #c7c2c2"}}></div>
+                    <div
+                      style={{ width: '100%', height: '1px', borderBottom: '1px solid #c7c2c2' }}
+                    ></div>
                   </List.Item>
                 )}
               />

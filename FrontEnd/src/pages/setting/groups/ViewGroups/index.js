@@ -2,7 +2,14 @@ import * as React from 'react';
 import { useState, useEffect } from 'react';
 import { getGroupDetail } from '@/untils/request';
 const { ContextProvider } = require('../context/ContextProvider');
-import { TableContainer, Table, TableHead, TableBody, TableRow, TableCell } from '@material-ui/core';
+import {
+  TableContainer,
+  Table,
+  TableHead,
+  TableBody,
+  TableRow,
+  TableCell,
+} from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { ArrowDropDown, ArrowDropUp } from '@material-ui/icons';
 import { useIntl, useModel } from 'umi';
@@ -20,7 +27,6 @@ const useStyles = makeStyles({
     },
   },
 });
-
 
 function ViewGroups(props) {
   const intl = useIntl();
@@ -41,18 +47,26 @@ function ViewGroups(props) {
 
   return (
     <div style={{ paddingTop: '170px' }}>
-      <h2 style={{ borderBottom: '1px solid #ccc' }}>{intl.formatMessage({ id: 'pages.setting.groups.titleView' })}</h2>
+      <h2 style={{ borderBottom: '1px solid #ccc' }}>
+        {intl.formatMessage({ id: 'pages.setting.groups.titleView' })}
+      </h2>
       <div>
         <div className="mb">
-          <span className="tb">2.{intl.formatMessage({ id: 'pages.setting.groups.nameGroupView' })}: </span>
+          <span className="tb">
+            2.{intl.formatMessage({ id: 'pages.setting.groups.nameGroupView' })}:{' '}
+          </span>
           <span>{itemView.name}</span>
         </div>
         <div className="mb">
-          <span className="tb">3.{intl.formatMessage({ id: 'pages.setting.groups.descriptionGroupView' })}: </span>
+          <span className="tb">
+            3.{intl.formatMessage({ id: 'pages.setting.groups.descriptionGroupView' })}:{' '}
+          </span>
           <span>{itemView.description}</span>
         </div>
         <div className="mb">
-          <span className="tb">4.{intl.formatMessage({ id: 'pages.setting.groups.infoTagsGroup' })}: </span>
+          <span className="tb">
+            4.{intl.formatMessage({ id: 'pages.setting.groups.infoTagsGroup' })}:{' '}
+          </span>
           <span>{itemView.conditionInfo}</span>
         </div>
         {/* <div className="mb">

@@ -1,7 +1,6 @@
 import Button from '@mui/material/Button';
 import { Input } from 'antd';
 import { useEffect, useState } from 'react';
-//===========Excel==================
 import { PlusOutlined } from '@ant-design/icons';
 import { Space, Tag, Tooltip } from 'antd';
 import { useRef } from 'react';
@@ -12,12 +11,9 @@ import { InboxOutlined } from '@ant-design/icons';
 import { notification } from '@/components/Notification';
 const { Dragger } = Upload;
 import { useIntl, useModel } from 'umi';
-//===========/Excel=================
-
 function AddGroupsToExcel({ onSelectMethod }) {
   const [createAdd, setCreateAdd] = useState(false);
   const intl = useIntl();
-  //=================sự kiện=====================
   const [data, setData] = useState('');
   const [Name, setName] = useState('');
   const [Description, setDescription] = useState('');
@@ -34,49 +30,50 @@ function AddGroupsToExcel({ onSelectMethod }) {
     name: 'file',
     multiple: false,
     action: 'http://api.cm.onexus.net/api/Group/CreateGroup',
+    headers: {
+      Authorization: 'Basic ' + btoa(`Ds7C2xG+BVHPAvUON5VijQ==:JDfmfXQvuqHrXBdUARcoLw==`),
+    },
     onChange(info) {
       const { status } = info.file;
       if (status === 'done') {
         setExcelFile(info.file.name);
-        return notification.success(intl.formatMessage({ id: 'pages.setting.groups.uploadedSuccess' }));
+        return notification.success(
+          intl.formatMessage({ id: 'pages.setting.groups.uploadedSuccess' }),
+        );
       } else if (status === 'error') {
         message.error(intl.formatMessage({ id: 'pages.setting.groups.uploadedFailed' }));
       }
     },
   };
-  //===============/upload file================
   const handleSubmit = async () => {
     switch (true) {
       case Name.trim().length === 0:
         return notification.warning(intl.formatMessage({ id: 'pages.setting.groups.enterName' }));
       case Description.trim().length === 0:
-        return notification.warning(intl.formatMessage({ id: 'pages.setting.groups.enterDescription' }));
+        return notification.warning(
+          intl.formatMessage({ id: 'pages.setting.groups.enterDescription' }),
+        );
       case ExcelFile.trim().length === 0:
         return notification.warning(intl.formatMessage({ id: 'pages.setting.groups.enterExcel' }));
     }
     try {
-      // Create FormData object
       const formData = new FormData();
       formData.append('Name', Name);
       formData.append('Description', Description);
       formData.append('Type', 1);
       formData.append('ExcelFile', ExcelFile);
-      // Send data to API
-      const response = await fetch('http://api.cm.onexus.net/api/Group/CreateGroup', {
-        method: 'POST',
-        body: formData,
+      CreateGroup(formData).then(() => {
+        notification.success(intl.formatMessage({ id: 'pages.setting.groups.createGroupSuccess' }));
       });
       const data = await response.json();
     } catch (error) {
       console.error(error);
     }
-    // Sau khi tạo nhóm thành công, ẩn component AddGroupsToTags và hiển thị component Groups
     setCreateAdd(true);
-    return notification.success(intl.formatMessage({ id: 'pages.setting.groups.createGroupSuccess' }));
+    return notification.success(
+      intl.formatMessage({ id: 'pages.setting.groups.createGroupSuccess' }),
+    );
   };
-
-  //=================/sự kiện=====================
-
   return (
     <>
       {createAdd ? (
@@ -85,7 +82,7 @@ function AddGroupsToExcel({ onSelectMethod }) {
         </>
       ) : (
         <>
-          <div style={{marginTop: "170px" }}>
+          <div style={{ marginTop: '170px' }}>
             <h2
               style={{
                 marginBottom: '20px',
@@ -104,18 +101,13 @@ function AddGroupsToExcel({ onSelectMethod }) {
                   <p className="title" style={{ width: '150px', margin: '0' }}>
                     {intl.formatMessage({ id: 'pages.setting.groups.nameGroup' })}:{' '}
                   </p>
-                  <Input
-                    onChange={onChangeContentName}
-                  />
-                  {/* value={content} */}
+                  <Input onChange={onChangeContentName} />
                 </div>
                 <div>
-                  <p className="title" style={{ width: '150px', margin: '0', paddingTop:"15px" }}>
+                  <p className="title" style={{ width: '150px', margin: '0', paddingTop: '15px' }}>
                     {intl.formatMessage({ id: 'pages.setting.groups.descriptionGroup' })}:{' '}
                   </p>
-                  <Input
-                    onChange={onChangeContentDescription}
-                  />
+                  <Input onChange={onChangeContentDescription} />
                 </div>
                 <div style={{ display: 'flex', marginTop: '10px', marginBottom: '10px' }}>
                   <p style={{ width: '150px', marginTop: '4px' }}>

@@ -2,19 +2,13 @@ import Button from '@mui/material/Button';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { useStateContext } from '../context/ContextProvider';
-// ===================================================
 import { notification } from '@/components/Notification';
 import { getGroup } from '@/untils/request';
 import { Radio } from 'antd';
 import { useIntl } from 'umi';
-
-//===========import component==================
 import AddGroupsToExcel from './AddGroupsToExcel';
 import AddGroupsToTags from './AddGroupsToTags';
 import AddGroupsToDK from './AddGroupToDK';
-//===========/import component=================
-
-//==========/Add Group=============
 function AddGroups({ closeCreate, handleShowAddGroups }) {
   const intl = useIntl();
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -30,7 +24,6 @@ function AddGroups({ closeCreate, handleShowAddGroups }) {
   const [dataUpdate, setDateUpdate] = useState();
   const { closeUpdate, setCloseUpdate } = useStateContext();
   const [closeAdd, setCloseAdd] = useState(false);
-  //=====================ADD Group============================
   const [groupName, setGroupName] = useState('');
   const [dataGroup, setDataGroup] = useState([]);
   const [method, setMethod] = useState('');
@@ -57,8 +50,6 @@ function AddGroups({ closeCreate, handleShowAddGroups }) {
   const onChangeContent = (e) => {
     setContent(e.target.value);
   };
-
-  // ====================/ADD Groups=============================
   const [value, setValue] = useState(1);
   const [valueMethod, setValueMethod] = useState('tag');
   const [selectMethod, setSelectMethod] = useState(true);
@@ -79,14 +70,13 @@ function AddGroups({ closeCreate, handleShowAddGroups }) {
       setSelectMethod(!selectMethod);
     }
   };
-
   return (
     <div style={{ height: 400, width: '100%' }}>
       <div style={{ display: 'flex' }}>
         <form style={{ width: '50%' }}>
           <>
             {selectMethod ? (
-              <div style={{marginTop: "170px" }}>
+              <div style={{ marginTop: '170px' }}>
                 <h2 style={{ marginBottom: '20px', borderBottom: '1px solid #ccc' }}>
                   {intl.formatMessage({ id: 'pages.setting.groups.titleAddGroup' })}
                 </h2>
@@ -98,20 +88,22 @@ function AddGroups({ closeCreate, handleShowAddGroups }) {
                     defaultValue={'tag'}
                     onChange={onChangeMethod}
                     value={valueMethod}
-                    style={{ marginLeft: '10px',marginTop: "-30px"}}
+                    style={{ marginLeft: '10px', marginTop: '-30px' }}
                   >
-                    <Radio defaultValue={'tag'} value={'tag'} style={{ display: "block" }}>
+                    <Radio defaultValue={'tag'} value={'tag'} style={{ display: 'block' }}>
                       {intl.formatMessage({ id: 'pages.setting.groups.tags' })}
                     </Radio>
-                    <Radio value={'dieuKien'} style={{ display: "block" }}>
+                    <Radio value={'dieuKien'} style={{ display: 'block' }}>
                       {intl.formatMessage({ id: 'pages.setting.groups.conditional' })}
                     </Radio>
-                    <Radio value={'excel'} style={{ display: "block" }}>{intl.formatMessage({ id: 'pages.setting.groups.toExcel' })}</Radio>
+                    <Radio value={'excel'} style={{ display: 'block' }}>
+                      {intl.formatMessage({ id: 'pages.setting.groups.toExcel' })}
+                    </Radio>
                   </Radio.Group>
                 </div>
                 <div style={{ display: 'flex', justifyContent: 'end' }}>
                   <Button variant="contained" onClick={handleShowAddGroups}>
-                  {intl.formatMessage({ id: 'pages.setting.groups.btnBack' })}
+                    {intl.formatMessage({ id: 'pages.setting.groups.btnBack' })}
                   </Button>
                   <Button
                     style={{ marginLeft: '10px' }}

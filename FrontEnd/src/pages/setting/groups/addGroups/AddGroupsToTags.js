@@ -1,7 +1,6 @@
 import Button from '@mui/material/Button';
 import { Input } from 'antd';
 import { useEffect, useState } from 'react';
-//===========inputTags==================
 import { PlusOutlined } from '@ant-design/icons';
 import { Space, Tag, Tooltip } from 'antd';
 import { useRef } from 'react';
@@ -9,12 +8,11 @@ import { useStateContext } from '../context/ContextProvider';
 import ListGroups from '../ListGroup';
 import AddGroups from '.';
 import { notification } from '@/components/Notification';
-//===========/inputTags=================
 import { useIntl, useModel } from 'umi';
+import { CreateGroup } from '@/untils/request';
 
 function AddGroupsToTags({ onSelectMethod }) {
   const intl = useIntl();
-  //=================inputTags=================
   const [tags, setTags] = useState([]);
   const [inputVisible, setInputVisible] = useState(false);
   const [inputValue, setInputValue] = useState('');
@@ -62,18 +60,11 @@ function AddGroupsToTags({ onSelectMethod }) {
     verticalAlign: 'top',
   };
   const tagPlusStyle = {
-    // background: token.colorBgContainer,
     borderStyle: 'dashed',
   };
-  // ================/inputTags=================
-
-  //=================sự kiện=====================
   const [method, setMethod] = useState('tags');
   const [selectMethod, setSelectMethod] = useState(true);
   const [createAdd, setCreateAdd] = useState(false);
-  //======Quay lại===========
-
-  //======/Quay lại===========
   const [data, setData] = useState('');
   const [Name, setName] = useState('');
   const [Description, setDescription] = useState('');
@@ -83,11 +74,8 @@ function AddGroupsToTags({ onSelectMethod }) {
   const onChangeContentDescription = (e) => {
     setDescription(e.target.value);
   };
-  //=================/sự kiện=====================
-
   const handleSubmit = async () => {
     try {
-      //Get the tag names from the state
       const tagsArr = tags.map((tag, index) => ({
         name: tag,
       }));
@@ -96,28 +84,25 @@ function AddGroupsToTags({ onSelectMethod }) {
         case Name.trim().length === 0:
           return notification.warning(intl.formatMessage({ id: 'pages.setting.groups.enterName' }));
         case Description.trim().length === 0:
-          return notification.warning(intl.formatMessage({ id: 'pages.setting.groups.enterDescription' }));
+          return notification.warning(
+            intl.formatMessage({ id: 'pages.setting.groups.enterDescription' }),
+          );
         case tagsString.trim().length === 0:
           return notification.warning(intl.formatMessage({ id: 'pages.setting.groups.enterTags' }));
       }
-      // Create FormData object
       const formData = new FormData();
       formData.append('Name', Name);
       formData.append('Description', Description);
       formData.append('Type', 1);
       formData.append('Tags', tagsString);
-      // Send data to API
-      const response = await fetch('http://api.cm.onexus.net/api/Group/CreateGroup', {
-        method: 'POST',
-        body: formData,
+      CreateGroup(formData).then(() => {
+        notification.success(intl.formatMessage({ id: 'pages.setting.groups.createGroupSuccess' }));
       });
       const data = await response.json();
     } catch (error) {
       console.error(error);
     }
-    // Sau khi tạo nhóm thành công, ẩn component AddGroupsToTags và hiển thị component Groups
     setCreateAdd(true);
-    return notification.success(intl.formatMessage({ id: 'pages.setting.groups.createGroupSuccess' }));
   };
 
   return (
@@ -125,7 +110,7 @@ function AddGroupsToTags({ onSelectMethod }) {
       {createAdd ? (
         <ListGroups />
       ) : (
-        <div style={{marginTop: "170px" }}>
+        <div style={{ marginTop: '170px' }}>
           <>
             <h2
               style={{
@@ -144,17 +129,13 @@ function AddGroupsToTags({ onSelectMethod }) {
                   <p className="title" style={{ width: '150px', margin: '0' }}>
                     {intl.formatMessage({ id: 'pages.setting.groups.nameGroup' })}:{' '}
                   </p>
-                  <Input
-                    onChange={onChangeContentName}
-                  />
+                  <Input onChange={onChangeContentName} />
                 </div>
                 <div>
-                  <p className="title" style={{ width: '150px', margin: '0',paddingTop:"15px" }}>
+                  <p className="title" style={{ width: '150px', margin: '0', paddingTop: '15px' }}>
                     {intl.formatMessage({ id: 'pages.setting.groups.descriptionGroup' })}:{' '}
                   </p>
-                  <Input
-                    onChange={onChangeContentDescription}
-                  />
+                  <Input onChange={onChangeContentDescription} />
                 </div>
                 <div
                   style={{
@@ -165,7 +146,7 @@ function AddGroupsToTags({ onSelectMethod }) {
                   }}
                 >
                   <p style={{ width: '132px', marginTop: '6px', position: 'absolute' }}>
-                  {intl.formatMessage({ id: 'pages.setting.groups.listTagsGroup' })}:{' '}
+                    {intl.formatMessage({ id: 'pages.setting.groups.listTagsGroup' })}:{' '}
                   </p>
                   <Space
                     size={[0, 8]}
@@ -236,7 +217,8 @@ function AddGroupsToTags({ onSelectMethod }) {
                       />
                     ) : (
                       <Tag style={tagPlusStyle} onClick={showInput}>
-                        <PlusOutlined /> {intl.formatMessage({ id: 'pages.setting.groups.addTagsGroup' })}
+                        <PlusOutlined />{' '}
+                        {intl.formatMessage({ id: 'pages.setting.groups.addTagsGroup' })}
                       </Tag>
                     )}
                   </Space>

@@ -4,7 +4,6 @@ import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import * as React from 'react';
 import { useEffect } from 'react';
-///
 import { useState } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
@@ -97,7 +96,6 @@ function AddCampaign({ closeCreate }) {
   const handleChangeSearch = (e) => {
     setGroupName(e.target.value);
   };
-  //api groups
   const onSubmitSearchNameGroup = () => {
     getGroup(groupName).then((res) => setDataGroup(res.data));
   };
@@ -105,8 +103,6 @@ function AddCampaign({ closeCreate }) {
   useEffect(() => {
     onSubmitSearchNameGroup();
   }, []);
-
-  //getTemplate
   useEffect(() => {
     const data = {
       channel: valueMethod,
@@ -114,8 +110,6 @@ function AddCampaign({ closeCreate }) {
     };
     GetTemplateByChannelLanguage(data).then((res) => setDataTemplate1(res.data));
   }, [valueMethod]);
-
-  //createAdCampaign
   const onsubmit = (e) => {
     let d = startDate.getDate();
     let m = startDate.getMonth() + 1;
@@ -360,21 +354,26 @@ function AddCampaign({ closeCreate }) {
                   setDatatemplate(record);
                   handleConvertJSX(record);
                   setOpenn(false);
-                }, // click row
-                onDoubleClick: (event) => {}, // double click row
-                onContextMenu: (event) => {}, // right button click row
-                onMouseEnter: (event) => {}, // mouse enter row
-                onMouseLeave: (event) => {}, // mouse leave row
+                },
+                onDoubleClick: (event) => {},
+                onContextMenu: (event) => {},
+                onMouseEnter: (event) => {},
+                onMouseLeave: (event) => {},
               };
             }}
           />
         </div>
       </Modal>
-      {/* ---------select Template end -----------*/}
-
       <div className="FlexBlock" style={{ width: '50%', marginTop: '160px ', display: 'block' }}>
         <div className="widthData">
-          <h2 style={{ marginBottom: '20px', padding: '20px 0', borderBottom: '1px solid #ccc',marginTop: "90px" }}>
+          <h2
+            style={{
+              marginBottom: '20px',
+              padding: '20px 0',
+              borderBottom: '1px solid #ccc',
+              marginTop: '90px',
+            }}
+          >
             {intl.formatMessage({ id: 'pages.setting.adsCampaign.titleAddCampaign' })}
           </h2>
           {selectMethod ? (
@@ -461,7 +460,7 @@ function AddCampaign({ closeCreate }) {
                     </Stack>
                   )}
                 </div>
-                <div className="mb" style={{marginTop: "50px"}}>
+                <div className="mb" style={{ marginTop: '50px' }}>
                   <span className="title">
                     {intl.formatMessage({ id: 'pages.setting.adsCampaign.adsCampaignTemplate' })}
                   </span>
@@ -486,62 +485,62 @@ function AddCampaign({ closeCreate }) {
                   </div>
                 </div>
                 <div>
-                    {dataTemplate !== 'Chưa Chọn' && (
-                      <div className="page-content preview">
-                        <div className="bl-preview-template preview-content">
-                          {valueMethod === 'zalo' ? (
-                            <div className="body-preview">
-                              <div className="bl-cover">
-                                <div className="content-preview">
-                                  <img
-                                    className="logo"
-                                    src="https://stc-oa.zdn.vn/uploads/2c343b41a8f41e97228db1e28023db4f.png"
-                                    alt="logo preview"
-                                  />
-                                  <h5 className="titlePreview">Chào mừng &lt;customer_name&gt;,</h5>
-                                  <div className="group-desc">
-                                    <p>
-                                      Cám ơn quý khách (mã số{' '}
-                                      <span className="param">&lt;customer_id&gt;</span>, mã đơn
-                                      hàng <span className="param">&lt;order_code&gt;</span>) đã sử
-                                      dụng <span className="param">&lt;service&gt;</span> của chúng
-                                      tôi vào ngày <span className="param">&lt;date&gt;</span>. Chúc
-                                      quý khách luôn khỏe mạnh, bình an và hạnh phúc.
-                                    </p>
-                                  </div>
-                                  <Button
-                                    sx={{ width: '100%' }}
-                                    variant="contained"
-                                    className="button-wrap"
-                                  >
-                                    <a
-                                      className="buttonLink"
-                                      href="https://oa.zalo.me/1117761745119064675"
-                                      target="_blank"
-                                    >
-                                      {' '}
-                                      Quan tâm OA OneNexus
-                                    </a>
-                                  </Button>
+                  {dataTemplate !== 'Chưa Chọn' && (
+                    <div className="page-content preview">
+                      <div className="bl-preview-template preview-content">
+                        {valueMethod === 'zalo' ? (
+                          <div className="body-preview">
+                            <div className="bl-cover">
+                              <div className="content-preview">
+                                <img
+                                  className="logo"
+                                  src="https://stc-oa.zdn.vn/uploads/2c343b41a8f41e97228db1e28023db4f.png"
+                                  alt="logo preview"
+                                />
+                                <h5 className="titlePreview">Chào mừng &lt;customer_name&gt;,</h5>
+                                <div className="group-desc">
+                                  <p>
+                                    Cám ơn quý khách (mã số{' '}
+                                    <span className="param">&lt;customer_id&gt;</span>, mã đơn hàng{' '}
+                                    <span className="param">&lt;order_code&gt;</span>) đã sử dụng{' '}
+                                    <span className="param">&lt;service&gt;</span> của chúng tôi vào
+                                    ngày <span className="param">&lt;date&gt;</span>. Chúc quý khách
+                                    luôn khỏe mạnh, bình an và hạnh phúc.
+                                  </p>
                                 </div>
+                                <Button
+                                  sx={{ width: '100%' }}
+                                  variant="contained"
+                                  className="button-wrap"
+                                >
+                                  <a
+                                    className="buttonLink"
+                                    href="https://oa.zalo.me/1117761745119064675"
+                                    target="_blank"
+                                  >
+                                    {' '}
+                                    Quan tâm OA OneNexus
+                                  </a>
+                                </Button>
                               </div>
                             </div>
-                          ) : (
-                            <div className="body-preview">
-                              {valueMethod === 'sms' ? (
-                                <div className="previewSMSbody">
-                                  {' '}
-                                  <span className="previewSMS">{preview.preview}</span>
-                                </div>
-                              ) : (
-                                handleConvertJSX(preview)
-                              )}
-                            </div>
-                          )}
-                        </div>
+                          </div>
+                        ) : (
+                          <div className="body-preview">
+                            {valueMethod === 'sms' ? (
+                              <div className="previewSMSbody">
+                                {' '}
+                                <span className="previewSMS">{preview.preview}</span>
+                              </div>
+                            ) : (
+                              handleConvertJSX(preview)
+                            )}
+                          </div>
+                        )}
                       </div>
-                    )}
-                  </div>
+                    </div>
+                  )}
+                </div>
                 <div className="groups-name marginTop400" style={{ marginTop: '-10px' }}>
                   <span className="title">
                     {intl.formatMessage({ id: 'pages.setting.adsCampaign.adsCampaignNameGroup' })}{' '}
@@ -587,7 +586,6 @@ function AddCampaign({ closeCreate }) {
                       </span>
                     )}
                   </List>
-                  
 
                   <div className="searchGroupName-btn">
                     <Stack direction="row" spacing={2}>

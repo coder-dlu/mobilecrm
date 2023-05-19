@@ -31,7 +31,6 @@ function Groups(props) {
   const handleCancelMethod = () => {
     setIsModalOpen(false);
   };
-  // //==============View Group============
   const [openView, setOpenView] = useState(false);
   const [open, setOpen] = React.useState(false);
   const [messageApi, contextHolder] = message.useMessage();
@@ -49,15 +48,12 @@ function Groups(props) {
         success;
       }, 3000);
     });
-
-  // ===========color row table===========
   const rowClassName = (record, rowIndex) => {
     if (rowIndex % 2 === 0) {
       return 'row-even';
     }
     return 'row-odd';
   };
-  // ===========/color row table===========
   const [activeTab, setActiveTab] = useState('');
   useEffect(() => {
     setActiveTab('tab1');
@@ -74,7 +70,7 @@ function Groups(props) {
             {activeTab === 'tab1' && (
               <div className="tab-panel">
                 <ContextProvider>
-                <ListGroups />
+                  <ListGroups />
                 </ContextProvider>
               </div>
             )}
@@ -89,7 +85,6 @@ function Groups(props) {
         </Col>
       </Row>
     </div>
-    // </div>
   );
 }
 
