@@ -10,7 +10,7 @@ import dropDown from './asset/drop.svg';
 import House from './asset/Housekeeping';
 import Reser from './asset/Reservation';
 import day from './asset/day.svg';
-import Reception from './asset/Reception';
+// import Reception from './asset/Reception';
 import SystemAdmin from './asset/SystemAdmin';
 import EI from './asset/EI';
 import bell from './asset/bell.svg';
@@ -386,8 +386,8 @@ export default function Header() {
   }, []);
 
   return (
-    <div style={{position: 'fixed',zIndex: '600'}}>
-      <Row className="Header-component" style={{ width: '100%',overflowX: 'none'}}>
+    <div>
+      <Row className="Header-component" style={{ width: '100%',overflowX: 'none', position: 'fixed',zIndex: '800'}}>
         <Col span={24} className="module-head-form ">
           <Col className="module-head" xxl={1} xl={2} lg={5} sm={5} xs={8}>
             <Logo className="module-logo "></Logo>
@@ -428,7 +428,7 @@ export default function Header() {
         <Popup state={false}></Popup>
         {open.changepass ? <ChangePass state={open} close={close} /> : ''}
       </Row>
-      <Row className="Header-component1" style={{ width: '425px'}}>
+      <Row className="Header-component1" style={{ width: '425px',position: 'fixed',zIndex: '600',marginTop: '45px'}}>
         <Col span={24} 
           className="module-head modules-group reponMenu module-head-form"
           style={{

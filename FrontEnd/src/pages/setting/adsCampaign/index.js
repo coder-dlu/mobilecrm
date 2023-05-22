@@ -260,7 +260,7 @@ const AdsCampaign = () => {
                           onClick={handleCreate}
                           style={{
                             position: 'fixed',
-                            zIndex: '999',
+                            zIndex: '700',
                             marginLeft: '228px',
                             marginTop: '-50px',
                           }}
