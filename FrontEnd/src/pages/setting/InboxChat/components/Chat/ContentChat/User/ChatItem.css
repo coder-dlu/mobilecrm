@@ -144,7 +144,7 @@
 }
 
 .left-msg .msg-bubble {
-  border-bottom-left-radius: 0;
+  word-wrap: break-word;
 }
 
 .right-msg {
@@ -155,6 +155,7 @@
   background: var(--right-msg-bg);
   border-bottom-right-radius: 0;
   font-size: 14px;
+  word-wrap: break-word;
 }
 .right-msg .msg-img {
   margin: 0 0 0 10px;
