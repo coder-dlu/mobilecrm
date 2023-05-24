@@ -1,19 +1,14 @@
-import { DeleteMessager, GetMessage } from '@/untils/request';
-import { useState, useEffect, useRef } from 'react';
-import { useSelector } from 'react-redux';
 import { userState } from '@/slices/messageSlice';
-import { checkIcon, fileIcon } from '../../../asset';
-import path from 'path';
-import { IoMdClose } from 'react-icons/io';
-import './ChatItem.css';
-import moment from 'moment';
-import { Image, Tooltip } from 'antd';
-import EmtyAvatar from '../../Common/EmtyAvatar/EmtyAvatar';
-import IsLinkContent from './MessageContent/MessageContent';
-import MessageContent from './MessageContent/MessageContent';
-import FormatDate from '../../Common/FormatDate/FormatDate';
-import { GrFormCheckmark } from 'react-icons/gr';
+import { DeleteMessager, GetMessage } from '@/untils/request';
 import { LeftOutlined, RightOutlined } from '@ant-design/icons';
+import { Image } from 'antd';
+import path from 'path';
+import { useEffect, useRef, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { fileIcon } from '../../../asset';
+import FormatDate from '../../Common/FormatDate/FormatDate';
+import './ChatItem.css';
+import MessageContent from './MessageContent/MessageContent';
 const ChatItem = ({
   isReciper,
   name,
@@ -53,11 +48,6 @@ const ChatItem = ({
       document.removeEventListener('mousedown', handleOutsideClick);
     };
   }, []);
-
-
-  // console.log('dataMess', dataMess);
-  // console.log('imgUser', imgUser);
-  // console.log('imgGuest', imgGuest);
   const handleEmptyAvatar = () => {
     switch (true) {
       case dataMess.senderThumbnail !== '':
@@ -69,22 +59,11 @@ const ChatItem = ({
       case (dataMess.messageType === 1 && dataMess.senderThumbnail !== '') || imgUser !== '':
         return <div className="avatarSend1">{imgUser ? imgUser : dataMess.senderThumbnail}</div>;
     }
-
-    // if (dataMess.senderThumbnail !== '') {
-    //   return <img className="msg-img" src={dataMess.senderThumbnail} />;
-    // } else if (
-    //   (dataMess.messageType === 0 && dataMess.senderThumbnail === '') &&
-    //   imgGuest === ''
-    // ) {
-    //   return <div className="avatarSend">{dataMess?.senderName.slice(0, 2)}</div>;
-    // }
   };
   const [viewImage, setViewImage] = useState('');
   const handleViewImage = (urlImg) => {
     setViewImage(urlImg.dataUrl);
   };
-  // console.log(dataMess.attachments);
-
   const handleSendFileImage = (dataFile) => {
     return dataFile.map((item) => {
       const fileName = path.basename(item.dataUrl || item.data_url);
@@ -186,7 +165,6 @@ const ChatItem = ({
   };
   return (
     <li className="chat-Item">
-      {/** UI Del */}
       <div className="containerChatItem">
         {dataMess.messageContent === 'Tin nhắn đã bị xoá' || removeMess ? (
           <div className={`msg  ${isReciper ? 'left-msg' : 'right-msg'}`}>
